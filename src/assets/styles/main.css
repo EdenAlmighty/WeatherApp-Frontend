@@ -10,4 +10,5 @@
 /* @import url('views/HomePage.css'); */
 /* Components */
 @import './components/app-header.css';
+@import './components/city-search.css';
 @import './components/app-footer.css';
