@@ -5,12 +5,12 @@
 html {
   color: var(--txt-main);
   background-color: #f1f1f1;
+  height: 100%;
 }
 
 body,
 html {
   scroll-behavior: smooth;
-  height: 100%;
   font-family: heebo;
 }
 
@@ -20,10 +20,11 @@ body {
 
 p {
   font-size: 1rem;
+  line-height: 0;
 }
 
 span {
-  font-family: heebo-l;
+  font-family: heebo-exl;
   font-size: 1.3125rem;
   margin: 0;
   padding: 0;
@@ -40,11 +41,12 @@ h6 {
   margin: 0;
   padding: 0;
   border: 0;
+  line-height: 1;
   vertical-align: baseline;
 }
 
 h1 {
-  font-size: 2.8125em;
+  font-size: 2.8125rem;
   letter-spacing: -0.5%;
 }
 
@@ -58,8 +60,12 @@ h3 {
 
 label {
   font-size: 2.0625em;
-  font-family: heebo-l;
+  font-family: heebo-exl;
   color: var(--txt-gray);
+}
+
+ul {
+  padding: 0;
 }
 
 li {

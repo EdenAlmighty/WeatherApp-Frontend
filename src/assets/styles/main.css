@@ -11,4 +11,5 @@
 /* Components */
 @import './components/app-header.css';
 @import './components/city-search.css';
+@import './components/weather-display.css';
 @import './components/app-footer.css';

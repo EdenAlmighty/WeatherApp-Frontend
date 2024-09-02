@@ -1,7 +1,12 @@
 /* Custom Font Faces */
 @font-face {
+    font-family: 'heebo-exl';
+    src: url('/src/assets/styles/fonts/Heebo/Heebo-ExtraLight.ttf') format('truetype');
+}
+
+@font-face {
     font-family: 'heebo-l';
-    src: url('/src/assets/styles/fonts/Heebo/Heebo-Light.ttf') format('truetype');
+    src: url('/src/assets/styles/fonts/Heebo/heebo-Light.ttf') format('truetype');
 }
 
 @font-face {
