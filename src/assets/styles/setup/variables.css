@@ -1,0 +1,29 @@
+#root {
+  /* Primary Colors */
+  --clr-black: #363636;
+  --clr-white: #ffffff;
+  --bgc-white: #f1f1f1;
+  --clr-blue: #26737d;
+  --clr-green: #046c3b;
+
+  /* Secondary Colors */
+  --clr-l-blue: #dde4e6;
+  --clr-gray: #808080;
+  --clr-blue-gray: #dce4e6;
+
+  --bgc-main: var(--bgc-white);
+  --bgc-box: var(--clr-l-blue);
+  --txt-main: var(--clr-black);
+  --txt-sec: var(--clr-white);
+
+  /* Button Colors */
+  --btn-txt: var(--clr-white);
+  --btn-txt-dark: var(--clr-black);
+
+  --btn-bgc: var(--clr-green);
+
+  /* Breakpoints */
+  --mobile-breakpoint: 880px;
+  --narrow-breakpoint: 720px;
+  --normal-breakpoint: 960px;
+}
