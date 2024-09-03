@@ -5,8 +5,6 @@ export default function CitySearch({ city, setCity }) {
     function handleChange(ev) {
         const value = ev.target.value
         setCity(value)
-        console.log(city);
-
     }
 
     return (
