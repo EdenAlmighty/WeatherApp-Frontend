@@ -3,12 +3,25 @@ import React from 'react'
 export default function Suggestions({ cities, handleCitySelect }) {
     return (
         <ul className="suggestions">
-            <li onClick={() => handleCitySelect('useCurrentLocation')}>Use Current Location</li>
+            <li
+                onMouseDown={() => handleCitySelect({ selectedCity: { name: 'useCurrentLocation' } })}
+                className='location'
+            >
+                <img
+                    src="/locationIcon.svg"
+                    alt="location icon"
+                    className="location-icon"
+                    style={{ marginRight: '0.5rem' }}
+                    aria-label='location'
+                />
+                Use Current Location
+            </li>
+
             {cities.map((city, idx) => (
                 <li
                     key={idx}
                     style={{ cursor: 'pointer' }}
-                    onClick={() => handleCitySelect(city)}
+                    onMouseDown={() => handleCitySelect({ selectedCity: city })}
                 >
                     {city.name}, {city.country}
                 </li>

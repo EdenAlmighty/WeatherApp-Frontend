@@ -8,6 +8,7 @@
   background-color: var(--clr-white);
   border-radius: 1rem;
   box-shadow: 0 2px 8px 2px rgb(0 0 0 / 7%);
+
   ul {
     padding: 0;
     margin: 0;
@@ -24,8 +25,24 @@
       background-color: var(--clr-l-blue);
     }
 
+    &:first-of-type:hover {
+      border-radius: 1rem 1rem 0 0;
+    }
+
+    &:last-of-type:hover {
+      border-radius: 0 0 1rem 1rem;
+    }
+
     &:not(:first-of-type) {
       border-top: 1px solid var(--clr-blue-gray);
+    }
+  }
+
+  .location {
+    display: flex;
+
+    img {
+        height: 1.75rem;
     }
   }
 }

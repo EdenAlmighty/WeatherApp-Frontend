@@ -1,16 +1,26 @@
-import React from "react"
+import React from "react";
 
-export default function AppFooter() {
+export default function AppFooter({ location }) {
+	const getCurrentDate = () => {
+		const now = new Date();
+		return now.toLocaleString('en-GB', {
+			day: '2-digit',
+			month: '2-digit',
+			year: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit',
+		}).replace(',', ' at');
+	};
 
 	return (
 		<footer>
 			<section className="geo-location">
 				<div className="coords-container flex">
-					<span>latitude 32.07</span>
-					<span>longitude 34.76</span>
+					<span>latitude {location.lat}</span>
+					<span>longitude {location.lon}</span>
 				</div>
-				<span>accurate to  13/02/2022 at 16:24</span>
+				{location && <span>accurate to {getCurrentDate()}</span>}
 			</section>
 		</footer>
-	)
+	);
 }

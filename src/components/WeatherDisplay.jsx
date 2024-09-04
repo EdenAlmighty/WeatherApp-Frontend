@@ -1,6 +1,6 @@
 import React from 'react'
-import { weatherService } from '../services/weather.service.old'
 import { utilService } from '../services/util.service'
+
 import WeatherForecast from './WeatherForecast'
 import WeatherDetails from './WeatherDetails'
 import WeatherTemp from './WeatherTemp'
@@ -21,8 +21,6 @@ export default function WeatherDisplay({ weatherData }) {
     } = weatherData
 
     const formattedDate = utilService.formatDate(localTime * 1000)
-
-    console.log('weatherData: ', weatherData);
 
     return (
         <aside className='weather-container'>
