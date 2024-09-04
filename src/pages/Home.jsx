@@ -4,7 +4,7 @@ import AppFooter from "../components/AppFooter"
 import CitySearch from "../components/CitySearch"
 import WeatherDisplay from "../components/WeatherDisplay"
 import { useDebounce } from "../hooks/useDebounce"
-import { weatherService } from "../services/weather.service"
+import { weatherService } from "../services/weather.service.old"
 
 export default function Home() {
     const [city, setCity] = useState('')
