@@ -1,6 +1,8 @@
 .weather-forecast {
   display: flex;
   gap: 2.875rem;
+  align-self: center;
+
 
   li {
     position: relative;

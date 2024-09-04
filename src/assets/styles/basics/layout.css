@@ -4,12 +4,11 @@
   margin-right: auto;
   justify-content: center;
   align-items: stretch;
-  gap: 205px;
   height: 100vh;
-  max-width: 2160px;
-  padding: 4.0625rem;
+  max-width: 2350px;
 
   .hero {
+    padding: 62px 62px 62px 15px;
     display: flex;
     flex-direction: column;
     flex: 1;

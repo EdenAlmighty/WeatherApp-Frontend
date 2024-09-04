@@ -1,7 +1,7 @@
 .weather-temperature {
-  margin: 2.75rem;
-  position: relative;
-  margin-block-end: 3rem;
+    margin: 2.75rem auto 2.75rem auto;
+    position: relative;
+    margin-block-end: 3rem;
 
   h1 {
     font-family: heebo;
@@ -9,6 +9,7 @@
     letter-spacing: -0.5rem;
     font-size: 14.3125rem;
     line-height: 0.7;
+    width: fit-content;
 
     .degree-sign {
       position: absolute;

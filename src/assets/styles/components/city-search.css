@@ -43,12 +43,12 @@
 
     button {
       position: absolute;
-      right: 1.25rem;
-      top: 50%;
+      right: 4%;
+      top: 53%;
       transform: translateY(-50%);
       font-size: 2.0625rem;
       font-family: heebo-exl;
-      height: 4.0625rem;
+      height: 66px;
       background-color: var(--btn-bgc);
       color: white;
       border: none;

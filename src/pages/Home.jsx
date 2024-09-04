@@ -94,8 +94,7 @@ export default function Home() {
             const defaultData = await weatherService.getByCity('London')
             setWeatherData(defaultData)
         } finally {
-            setTimeout(() => setIsLoading(false), 10000)
-            // setIsLoading(false)
+            setIsLoading(false)
             setCities([])
             setCity('')
         }
