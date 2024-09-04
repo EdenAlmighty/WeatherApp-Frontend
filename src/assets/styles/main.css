@@ -8,6 +8,7 @@
 @import './basics/layout.css';
 
 /* Components */
+@import './components/loader.css';
 @import './components/app-header.css';
 @import './components/city-search.css';
 @import './components/suggestions.css';

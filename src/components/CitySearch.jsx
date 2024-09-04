@@ -9,6 +9,7 @@ export default function CitySearch({
     handleChange,
     inputRef,
     placeholder,
+    isLoading
 }) {
     const [showSuggestions, setShowSuggestions] = useState(false)
 
@@ -49,7 +50,7 @@ export default function CitySearch({
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                 />
-                <button type="submit">Check</button>
+                <button type="submit">{ isLoading ? <div className="loader"></div> : `Check`}</button>
                 {(cities.length > 0 && showSuggestions) && (
                     <Suggestions
                         cities={cities}

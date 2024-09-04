@@ -11,7 +11,9 @@ export default function Home() {
     const [weatherData, setWeatherData] = useState(null)
     const [cities, setCities] = useState([])
     const [placeholder, setPlaceholder] = useState('Search for a city')
-    const [location, setLocation] = useState({lat: 0, lon: 0})
+    const [location, setLocation] = useState({ lat: 0, lon: 0 })
+    const [error, setError] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     const debouncedCity = useDebounce(city, 1000)
     const inputRef = useRef(null)
@@ -35,7 +37,7 @@ export default function Home() {
 
             const cityName = data.location?.name || 'London'
             setCity(cityName)
-            setLocation({lat: data.location.lat, lon: data.location.lon})
+            setLocation({ lat: data.location.lat, lon: data.location.lon })
             await fetchWeather(cityName)
         } catch (err) {
             console.error('Failed to fetch default weather data:', err)
@@ -58,9 +60,9 @@ export default function Home() {
         setCity(value)
     }
 
-    function handleCitySelect({selectedCity}) {
+    function handleCitySelect({ selectedCity }) {
         console.log('selectedCity: ', selectedCity);
-        
+
         if (selectedCity.name == 'useCurrentLocation') {
             fetchDefaultWeather()
         } else {
@@ -75,27 +77,30 @@ export default function Home() {
     }
 
     async function fetchWeather(cityName) {
+        setIsLoading(true)
+        setError(null)
         try {
             const data = await weatherService.getByCity(cityName)
             if (data) {
                 setWeatherData(data)
                 setPlaceholder(`${data.cityName}`)
-                console.log('data: ', data);
-                
             } else {
-                console.warn(`No data found for city: ${cityName}. Showing default data.`)
                 const defaultData = await weatherService.getByCity('London')
                 setWeatherData(defaultData)
             }
         } catch (err) {
             console.error('Failed to fetch weather data:', err)
+            setError('Failed to fetch weather data. Please try again later.')
             const defaultData = await weatherService.getByCity('London')
             setWeatherData(defaultData)
         } finally {
+            setTimeout(() => setIsLoading(false), 10000)
+            // setIsLoading(false)
             setCities([])
             setCity('')
         }
     }
+
 
     return (
         <main className="main-container">
@@ -112,13 +117,13 @@ export default function Home() {
                     inputRef={inputRef}
                     placeholder={placeholder}
                     setPlaceholder={setPlaceholder}
+                    isLoading={isLoading}
                 />
                 <AppFooter location={location} />
             </aside>
-            {weatherData ? (
+
+            {weatherData && (
                 <WeatherDisplay weatherData={weatherData} />
-            ) : (
-                <div>Loading...</div>
             )}
         </main>
     )

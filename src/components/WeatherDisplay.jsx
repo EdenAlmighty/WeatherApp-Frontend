@@ -6,18 +6,18 @@ import WeatherDetails from './WeatherDetails'
 import WeatherTemp from './WeatherTemp'
 import WeatherLocation from './WeatherLocation'
 
-export default function WeatherDisplay({ weatherData }) {
+export default function WeatherDisplay({ weatherData, isLoading }) {
 
     const {
-        cityName,
-        country,
-        temperature,
-        description,
-        precipitation,
-        humidity,
-        windSpeed,
-        localTime,
-        forecast
+        cityName = 'Unknown City',
+        country = 'Unknown Country',
+        temperature = 30,
+        description = 'rainy',
+        precipitation = 0,
+        humidity = 30,
+        windSpeed = 30,
+        localTime = 0,
+        forecast = []
     } = weatherData
 
     const formattedDate = utilService.formatDate(localTime * 1000)
@@ -39,6 +39,7 @@ export default function WeatherDisplay({ weatherData }) {
                 <WeatherForecast
                     forecast={forecast} />
             </section>
+
         </aside>
     )
 }
