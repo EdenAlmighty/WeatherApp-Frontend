@@ -1,10 +1,23 @@
 import React from 'react'
 
-export default function CitySearch({ city, setCity }) {
+export default function CitySearch({
+    city,
+    setCity,
+    cities,
+    setCities,
+    handleCitySelect,
+    handleSubmit,
+    debouncedFilterCities
+}) {
 
     function handleChange(ev) {
         const value = ev.target.value
         setCity(value)
+        if (value.length > 2) {
+            debouncedFilterCities(value)
+        } else {
+            setCities([])
+        }
     }
 
     return (
@@ -13,7 +26,7 @@ export default function CitySearch({ city, setCity }) {
                 to see the weather<br />
                 around the world</span>
             <label htmlFor="search">City name</label>
-            <div className="input-container">
+            <form className="input-container" onSubmit={handleSubmit} role="search" aria-label="search" >
                 <input
                     type="text"
                     placeholder="Search for a city"
@@ -22,10 +35,23 @@ export default function CitySearch({ city, setCity }) {
                     aria-required="true"
                     required
                     value={city}
-                    onChange={(ev) => handleChange(ev)}
+                    onChange={handleChange}
                 />
                 <button>Check</button>
-            </div>
+            </form>
+            {cities.length > 0 && (
+                <ul style={{ listStyleType: 'none', padding: 0 }}>
+                    {cities.map((city, idx) => (
+                        <li
+                            key={idx}
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => handleCitySelect(city)}
+                        >
+                            {city.name}, {city.country}
+                        </li>
+                    ))}
+                </ul>
+            )}
         </section>
     )
 }
