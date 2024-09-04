@@ -24,7 +24,6 @@ export default function WeatherDisplay({ weatherData }) {
 
     console.log('weatherData: ', weatherData);
 
-    if(!weatherData) return null
     return (
         <aside className='weather-container'>
             <section className='weather-widget'>

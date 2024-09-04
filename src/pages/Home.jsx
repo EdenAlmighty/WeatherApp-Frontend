@@ -18,18 +18,37 @@ export default function Home() {
         } else {
             setCities([])
         }
-    }, [debouncedCity])    
+    }, [debouncedCity])
+
+
+    useEffect(() => {
+        async function fetchDefaultWeather() {
+            try {
+                const data = await weatherService.getCityByIp()
+                console.log('data: ', data);
+                
+                const cityName = data.location.name || 'London'
+                setCity(cityName)
+                await fetchWeather(cityName)
+            } catch (err) {
+                console.err('Failed to fetch default weather data:', err)
+                await fetchWeather('London')
+            }
+        }
+
+        fetchDefaultWeather()
+    }, [])
 
     async function onGetCities(cityName) {
         try {
             const data = await weatherService.query(cityName)
             setCities(data)
             console.log('cities: ', data)
-        } catch (error) {
-            console.error('Failed to fetch cities:', error)
+        } catch (err) {
+            console.err('Failed to fetch cities:', err)
         }
     }
-    
+
 
     function handleChange(ev) {
         const value = ev.target.value
@@ -49,16 +68,24 @@ export default function Home() {
     async function fetchWeather(cityName) {
         try {
             const data = await weatherService.getByCity(cityName)
-            setWeatherData(data)
+            if (data) {
+                setWeatherData(data)
+            } else {
+                console.warn(`No data found for city: ${cityName}. Showing default data.`)
+                const defaultData = await weatherService.getByCity('London')
+                setWeatherData(defaultData)
+            }
             console.log('weatherData: ', data)
-
-        } catch (error) {
-            console.error('Failed to fetch weather data:', error)
+        } catch (err) {
+            console.err('Failed to fetch weather data:', err)
+            const defaultData = await weatherService.getByCity('London')
+            setWeatherData(defaultData)
         } finally {
             setCities([])
             setCity('')
         }
     }
+
 
     return (
         <main className="main-container">
@@ -75,8 +102,11 @@ export default function Home() {
                 />
                 <AppFooter />
             </aside>
-            {weatherData && <WeatherDisplay weatherData={weatherData} />}
-            {/* <WeatherDisplay weatherData={weatherData} /> */}
+            {weatherData ? (
+                <WeatherDisplay weatherData={weatherData} />
+            ) : (
+                <div>Loading...</div>
+            )}
         </main>
     )
 }
