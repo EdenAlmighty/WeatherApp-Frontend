@@ -6,5 +6,6 @@ export default function WeatherLocation({ cityName, country, localTime }) {
             <h3>{cityName}</h3>
             <span>{country}</span>
             <p>{localTime}</p>
-        </article>)
+        </article>
+    )
 }

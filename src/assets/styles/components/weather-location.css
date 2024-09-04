@@ -1,0 +1,25 @@
+.weather-location {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+  line-height: 0;
+
+  h3 {
+    padding-bottom: 0.1875rem;
+    font-family: heebo-exl;
+    font-size: 2.875rem;
+    letter-spacing: 0.09375rem;
+  }
+
+  span,
+  p {
+    font-family: heebo-exl;
+    font-size: 2.25rem;
+    color: var(--clr-blue-gray);
+  }
+
+  p {
+    font-size: 2.0625rem;
+    margin-top: 2.5rem;
+  }
+}

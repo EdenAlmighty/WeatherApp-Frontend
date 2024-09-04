@@ -1,0 +1,27 @@
+.weather-temperature {
+  margin: 2.75rem;
+  position: relative;
+  margin-block-end: 3rem;
+
+  h1 {
+    font-family: heebo;
+    margin-right: 1.375rem;
+    letter-spacing: -0.5rem;
+    font-size: 14.3125rem;
+    line-height: 0.7;
+
+    .degree-sign {
+      position: absolute;
+      top: -25%;
+      right: -10%;
+      height: 3.4375rem;
+    }
+  }
+
+  span {
+    font-family: heebo-exl;
+    font-size: 3.4375rem;
+    line-height: 0.9;
+    margin-right: 0.25rem;
+  }
+}

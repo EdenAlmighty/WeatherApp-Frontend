@@ -1,0 +1,29 @@
+.weather-forecast {
+  display: flex;
+  gap: 2.875rem;
+
+  li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+
+    .degree-sign {
+      position: absolute;
+      top: 35%;
+      right: 14%;
+      height: 0.5rem;
+    }
+  }
+
+  span {
+    font-size: 2.125rem;
+    line-height: 0.1;
+    color: var(--clr-blue-gray);
+  }
+
+  p {
+    font-size: 2.125rem;
+    font-family: heebo-m;
+  }
+}
