@@ -1,41 +1,100 @@
 import { utilService } from "./util.service"
 
 const WEATHER_KEY = 'weatherDB'
+let runTimeCache = {}
 
 export const weatherService = {
   query,
+  getWeather,
+  getDefaultWeather
 }
 
 async function query(city) {
+  const cityUpper = city.toUpperCase()
 
-  let storedWeatherData = utilService.loadFromStorage(WEATHER_KEY) || []
-  console.log('storedWeatherData: ', storedWeatherData)
-  const cityWeather = storedWeatherData.find(item =>
-    item.name.toUpperCase() === city.toUpperCase())
-
-  if (cityWeather) {
-    console.log('cityWeather: ', cityWeather)
-    return cityWeather
+  if (runTimeCache[cityUpper]) {
+    return formatWeatherData(runTimeCache[cityUpper])
   }
 
-  // Hardcoded weather data for testing
-  const hardcodedWeatherData = weatherData.find(item =>
-    item.name.toUpperCase() === city.toUpperCase())
+  const storedWeatherData = utilService.loadFromStorage(WEATHER_KEY) || []
+  console.log('storedWeatherData: ', storedWeatherData)
 
+  const cityWeather = storedWeatherData.find(item => item.location.name.toUpperCase() === cityUpper)
+
+  if (cityWeather) {
+    runTimeCache[cityUpper] = cityWeather
+    console.log('cityWeather: ', cityWeather)
+    return formatWeatherData(cityWeather)
+  }
+
+  const hardcodedWeatherData = weatherData.find(item => item.location.name.toUpperCase() === cityUpper)
   console.log('hardcodedWeatherData: ', hardcodedWeatherData)
 
   if (hardcodedWeatherData) {
-
     storedWeatherData.push(hardcodedWeatherData)
     utilService.saveToStorage(WEATHER_KEY, storedWeatherData)
+    runTimeCache[cityUpper] = hardcodedWeatherData
     console.log('hardcodedWeatherData: ', hardcodedWeatherData)
 
-    return hardcodedWeatherData
+    return formatWeatherData(hardcodedWeatherData)
   }
 
   throw new Error(`No weather data available for ${city}`)
 }
 
+function formatWeatherData(data) {
+  const {
+    location: {
+      name: cityName = 'Unknown City',
+      country = 'Unknown Country',
+      localtime_epoch: localTime = "0" } = {},
+
+    current: {
+      temp_c: temperature = 30,
+      humidity = 30,
+      precip_mm: precipitation = 0,
+      condition: { text: description = 'rainy' } = {},
+      wind_kph: windSpeed = 30 } = {},
+
+    forecast: { forecastday = [] } = {}
+
+  } = data || {}
+  console.log('data: ', data)
+
+  const hourlyForecast = forecastday.flatMap(day =>
+    day.hour.map(hour => ({
+      time: utilService.formatTimestamp(hour.time_epoch),
+      temp: hour.temp_c
+    }))
+  )
+
+  return {
+    cityName,
+    country,
+    localTime,
+    temperature,
+    description,
+    precipitation,
+    humidity,
+    windSpeed,
+    forecast: hourlyForecast
+  }
+}
+
+function getWeather(cityName) {
+  const cityWeather = weatherData.find(item => item.location.name.toUpperCase() === cityName.toUpperCase());
+
+  if (!cityWeather) {
+    throw new Error(`No weather data available for ${cityName}`);
+  }
+
+  return formatWeatherData(cityWeather)
+}
+
+function getDefaultWeather() {
+  const cityWeather = weatherData[0]
+  return formatWeatherData(cityWeather)
+}
 
 async function getCities(query) {
   console.log('getCities: ', getCities)
@@ -43,684 +102,540 @@ async function getCities(query) {
 
 const weatherData = [
   {
-    "coord": {
-      "lon": 34.8,
-      "lat": 32.0833
+    "location": {
+      "name": "Hollywood",
+      "region": "Florida",
+      "country": "United States of America",
+      "lat": 26.01,
+      "lon": -80.15,
+      "tz_id": "America/New_York",
+      "localtime_epoch": 1725454002,
+      "localtime": "2024-09-04 08:46"
     },
-    "weather": [
-      {
-        "id": 801,
-        "main": "Clouds",
-        "description": "few clouds",
-        "icon": "02d"
-      }
-    ],
-    "base": "stations",
-    "main": {
-      "temp": 30.13,
-      "feels_like": 32.11,
-      "temp_min": 29.6,
-      "temp_max": 30.14,
-      "pressure": 1012,
-      "humidity": 55,
-      "sea_level": 1012,
-      "grnd_level": 1009
+    "current": {
+      "last_updated_epoch": 1725453900,
+      "last_updated": "2024-09-04 08:45",
+      "temp_c": 29.4,
+      "temp_f": 84.9,
+      "wind_mph": 10.5,
+      "wind_kph": 16.9,
+      "precip_mm": 0.01,
+      "precip_in": 0.0
     },
-    "visibility": 10000,
-    "wind": {
-      "speed": 6.17,
-      "deg": 340
-    },
-    "clouds": {
-      "all": 20
-    },
-    "dt": 1725374338,
-    "sys": {
-      "type": 1,
-      "id": 6845,
-      "country": "IL",
-      "sunrise": 1725333456,
-      "sunset": 1725379382
-    },
-    "timezone": 10800,
-    "id": 293396,
-    "name": "Tel Aviv",
-    "cod": 200,
-    "forecast": [
-      {
-        "dt": 1725375600,
-        "main": {
-          "temp": 30.13,
-          "feels_like": 32.11,
-          "temp_min": 28.06,
-          "temp_max": 30.13,
-          "pressure": 1012,
-          "sea_level": 1012,
-          "grnd_level": 1009,
-          "humidity": 55,
-          "temp_kf": 2.07
-        },
-        "weather": [
-          {
-            "id": 801,
-            "main": "Clouds",
-            "description": "few clouds",
-            "icon": "02d"
-          }
-        ],
-        "clouds": {
-          "all": 20
-        },
-        "wind": {
-          "speed": 4.99,
-          "deg": 334,
-          "gust": 4.86
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "d"
-        },
-        "dt_txt": "2024-09-03 15:00:00"
-      },
-      {
-        "dt": 1725386400,
-        "main": {
-          "temp": 29.12,
-          "feels_like": 31.08,
-          "temp_min": 27.11,
-          "temp_max": 29.12,
-          "pressure": 1012,
-          "sea_level": 1012,
-          "grnd_level": 1010,
-          "humidity": 59,
-          "temp_kf": 2.01
-        },
-        "weather": [
-          {
-            "id": 801,
-            "main": "Clouds",
-            "description": "few clouds",
-            "icon": "02n"
-          }
-        ],
-        "clouds": {
-          "all": 13
-        },
-        "wind": {
-          "speed": 3.68,
-          "deg": 345,
-          "gust": 3.94
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "n"
-        },
-        "dt_txt": "2024-09-03 18:00:00"
-      },
-      {
-        "dt": 1725397200,
-        "main": {
-          "temp": 27.72,
-          "feels_like": 29.35,
-          "temp_min": 26.52,
-          "temp_max": 27.72,
-          "pressure": 1012,
-          "sea_level": 1012,
-          "grnd_level": 1009,
-          "humidity": 63,
-          "temp_kf": 1.2
-        },
-        "weather": [
-          {
-            "id": 800,
-            "main": "Clear",
-            "description": "clear sky",
-            "icon": "01n"
-          }
-        ],
-        "clouds": {
-          "all": 9
-        },
-        "wind": {
-          "speed": 2.28,
-          "deg": 344,
-          "gust": 2.54
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "n"
-        },
-        "dt_txt": "2024-09-03 21:00:00"
-      },
-      {
-        "dt": 1725408000,
-        "main": {
-          "temp": 26.1,
-          "feels_like": 26.1,
-          "temp_min": 26.1,
-          "temp_max": 26.1,
-          "pressure": 1011,
-          "sea_level": 1011,
-          "grnd_level": 1009,
-          "humidity": 69,
-          "temp_kf": 0
-        },
-        "weather": [
-          {
-            "id": 800,
-            "main": "Clear",
-            "description": "clear sky",
-            "icon": "01n"
-          }
-        ],
-        "clouds": {
-          "all": 6
-        },
-        "wind": {
-          "speed": 2.45,
-          "deg": 311,
-          "gust": 2.86
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "n"
-        },
-        "dt_txt": "2024-09-04 00:00:00"
-      },
-      {
-        "dt": 1725418800,
-        "main": {
-          "temp": 25.97,
-          "feels_like": 25.97,
-          "temp_min": 25.97,
-          "temp_max": 25.97,
-          "pressure": 1011,
-          "sea_level": 1011,
-          "grnd_level": 1009,
-          "humidity": 68,
-          "temp_kf": 0
-        },
-        "weather": [
-          {
-            "id": 802,
-            "main": "Clouds",
-            "description": "scattered clouds",
-            "icon": "03n"
-          }
-        ],
-        "clouds": {
-          "all": 27
-        },
-        "wind": {
-          "speed": 1.87,
-          "deg": 308,
-          "gust": 2.31
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "n"
-        },
-        "dt_txt": "2024-09-04 03:00:00"
-      }
-    ]
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2024-09-04",
+          "date_epoch": 1725408000,
+          "day": {
+
+          },
+          "hour": [
+            {
+              "time_epoch": 1725422400,
+              "time": "2024-09-04 00:00",
+              "temp_c": 29.4,
+              "temp_f": 84.9
+            },
+            {
+              "time_epoch": 1725426000,
+              "time": "2024-09-04 01:00",
+              "temp_c": 29.3,
+              "temp_f": 84.8
+            },
+            {
+              "time_epoch": 1725429600,
+              "time": "2024-09-04 02:00",
+              "temp_c": 29.2,
+              "temp_f": 84.6
+            },
+            {
+              "time_epoch": 1725433200,
+              "time": "2024-09-04 03:00",
+              "temp_c": 29.2,
+              "temp_f": 84.5
+            },
+            {
+              "time_epoch": 1725436800,
+              "time": "2024-09-04 04:00",
+              "temp_c": 29.2,
+              "temp_f": 84.5
+            },
+            {
+              "time_epoch": 1725440400,
+              "time": "2024-09-04 05:00",
+              "temp_c": 29.2,
+              "temp_f": 84.5
+            },
+            {
+              "time_epoch": 1725444000,
+              "time": "2024-09-04 06:00",
+              "temp_c": 29.1,
+              "temp_f": 84.4
+            },
+            {
+              "time_epoch": 1725447600,
+              "time": "2024-09-04 07:00",
+              "temp_c": 29.2,
+              "temp_f": 84.5
+            },
+            {
+              "time_epoch": 1725451200,
+              "time": "2024-09-04 08:00",
+              "temp_c": 29.4,
+              "temp_f": 84.9
+            },
+            {
+              "time_epoch": 1725454800,
+              "time": "2024-09-04 09:00",
+              "temp_c": 29.8,
+              "temp_f": 85.7
+            },
+            {
+              "time_epoch": 1725458400,
+              "time": "2024-09-04 10:00",
+              "temp_c": 30.3,
+              "temp_f": 86.6
+            },
+            {
+              "time_epoch": 1725462000,
+              "time": "2024-09-04 11:00",
+              "temp_c": 30.7,
+              "temp_f": 87.3
+            },
+            {
+              "time_epoch": 1725465600,
+              "time": "2024-09-04 12:00",
+              "temp_c": 31.1,
+              "temp_f": 88.0
+            },
+            {
+              "time_epoch": 1725469200,
+              "time": "2024-09-04 13:00",
+              "temp_c": 31.4,
+              "temp_f": 88.5
+            },
+            {
+              "time_epoch": 1725472800,
+              "time": "2024-09-04 14:00",
+              "temp_c": 31.5,
+              "temp_f": 88.7
+            },
+            {
+              "time_epoch": 1725476400,
+              "time": "2024-09-04 15:00",
+              "temp_c": 31.6,
+              "temp_f": 88.8
+            },
+            {
+              "time_epoch": 1725480000,
+              "time": "2024-09-04 16:00",
+              "temp_c": 31.5,
+              "temp_f": 88.7
+            },
+            {
+              "time_epoch": 1725483600,
+              "time": "2024-09-04 17:00",
+              "temp_c": 31.3,
+              "temp_f": 88.4
+            },
+            {
+              "time_epoch": 1725487200,
+              "time": "2024-09-04 18:00",
+              "temp_c": 31.0,
+              "temp_f": 87.8
+            },
+            {
+              "time_epoch": 1725490800,
+              "time": "2024-09-04 19:00",
+              "temp_c": 30.6,
+              "temp_f": 87.1
+            },
+            {
+              "time_epoch": 1725494400,
+              "time": "2024-09-04 20:00",
+              "temp_c": 30.2,
+              "temp_f": 86.4
+            },
+            {
+              "time_epoch": 1725498000,
+              "time": "2024-09-04 21:00",
+              "temp_c": 30.0,
+              "temp_f": 86.0
+            },
+            {
+              "time_epoch": 1725501600,
+              "time": "2024-09-04 22:00",
+              "temp_c": 29.8,
+              "temp_f": 85.7
+            },
+            {
+              "time_epoch": 1725505200,
+              "time": "2024-09-04 23:00",
+              "temp_c": 29.7,
+              "temp_f": 85.5
+            }
+          ]
+        }
+      ]
+    }
   },
   {
-    "coord": {
-      "lon": -118.2437,
-      "lat": 34.0522
+    "location": {
+      "name": "Tel Aviv-Yafo",
+      "region": "Tel Aviv",
+      "country": "Israel",
+      "lat": 32.07,
+      "lon": 34.76,
+      "tz_id": "Asia/Jerusalem",
+      "localtime_epoch": 1725453949,
+      "localtime": "2024-09-04 15:45"
     },
-    "weather": [
-      {
-        "id": 701,
-        "main": "Mist",
-        "description": "mist",
-        "icon": "50d"
-      }
-    ],
-    "base": "stations",
-    "main": {
-      "temp": 19.32,
-      "feels_like": 19.61,
-      "temp_min": 17.6,
-      "temp_max": 22.47,
-      "pressure": 1013,
-      "humidity": 88,
-      "sea_level": 1013,
-      "grnd_level": 994
+    "current": {
+      "last_updated_epoch": 1725453900,
+      "last_updated": "2024-09-04 15:45",
+      "temp_c": 31.1,
+      "temp_f": 88.0,
+      "wind_mph": 12.5,
+      "wind_kph": 20.2,
+      "precip_mm": 0.0,
+      "precip_in": 0.0
     },
-    "visibility": 4023,
-    "wind": {
-      "speed": 2.06,
-      "deg": 280
-    },
-    "clouds": {
-      "all": 100
-    },
-    "dt": 1725374557,
-    "sys": {
-      "type": 1,
-      "id": 4361,
-      "country": "US",
-      "sunrise": 1725370110,
-      "sunset": 1725416171
-    },
-    "timezone": -25200,
-    "id": 5368361,
-    "name": "Los Angeles",
-    "cod": 200,
-    "forecast": [
-      {
-        "dt": 1725375600,
-        "main": {
-          "temp": 19.34,
-          "feels_like": 19.63,
-          "temp_min": 19.34,
-          "temp_max": 24.22,
-          "pressure": 1013,
-          "sea_level": 1013,
-          "grnd_level": 994,
-          "humidity": 88,
-          "temp_kf": -4.88
-        },
-        "weather": [
-          {
-            "id": 804,
-            "main": "Clouds",
-            "description": "overcast clouds",
-            "icon": "04d"
-          }
-        ],
-        "clouds": {
-          "all": 100
-        },
-        "wind": {
-          "speed": 1.05,
-          "deg": 217,
-          "gust": 0.67
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "d"
-        },
-        "dt_txt": "2024-09-03 15:00:00"
-      },
-      {
-        "dt": 1725386400,
-        "main": {
-          "temp": 22.93,
-          "feels_like": 23.13,
-          "temp_min": 22.93,
-          "temp_max": 30.12,
-          "pressure": 1013,
-          "sea_level": 1013,
-          "grnd_level": 994,
-          "humidity": 71,
-          "temp_kf": -7.19
-        },
-        "weather": [
-          {
-            "id": 803,
-            "main": "Clouds",
-            "description": "broken clouds",
-            "icon": "04d"
-          }
-        ],
-        "clouds": {
-          "all": 67
-        },
-        "wind": {
-          "speed": 2.53,
-          "deg": 241,
-          "gust": 1.8
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "d"
-        },
-        "dt_txt": "2024-09-03 18:00:00"
-      },
-      {
-        "dt": 1725397200,
-        "main": {
-          "temp": 27.44,
-          "feels_like": 28,
-          "temp_min": 27.44,
-          "temp_max": 31.49,
-          "pressure": 1012,
-          "sea_level": 1012,
-          "grnd_level": 993,
-          "humidity": 52,
-          "temp_kf": -4.05
-        },
-        "weather": [
-          {
-            "id": 802,
-            "main": "Clouds",
-            "description": "scattered clouds",
-            "icon": "03d"
-          }
-        ],
-        "clouds": {
-          "all": 33
-        },
-        "wind": {
-          "speed": 4.65,
-          "deg": 239,
-          "gust": 4.28
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "d"
-        },
-        "dt_txt": "2024-09-03 21:00:00"
-      },
-      {
-        "dt": 1725408000,
-        "main": {
-          "temp": 31.5,
-          "feels_like": 30.37,
-          "temp_min": 31.5,
-          "temp_max": 31.5,
-          "pressure": 1010,
-          "sea_level": 1010,
-          "grnd_level": 991,
-          "humidity": 31,
-          "temp_kf": 0
-        },
-        "weather": [
-          {
-            "id": 800,
-            "main": "Clear",
-            "description": "clear sky",
-            "icon": "01d"
-          }
-        ],
-        "clouds": {
-          "all": 0
-        },
-        "wind": {
-          "speed": 4.32,
-          "deg": 236,
-          "gust": 5.32
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "d"
-        },
-        "dt_txt": "2024-09-04 00:00:00"
-      },
-      {
-        "dt": 1725418800,
-        "main": {
-          "temp": 29.27,
-          "feels_like": 28.16,
-          "temp_min": 29.27,
-          "temp_max": 29.27,
-          "pressure": 1010,
-          "sea_level": 1010,
-          "grnd_level": 991,
-          "humidity": 31,
-          "temp_kf": 0
-        },
-        "weather": [
-          {
-            "id": 800,
-            "main": "Clear",
-            "description": "clear sky",
-            "icon": "01n"
-          }
-        ],
-        "clouds": {
-          "all": 0
-        },
-        "wind": {
-          "speed": 2.52,
-          "deg": 165,
-          "gust": 3.05
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "n"
-        },
-        "dt_txt": "2024-09-04 03:00:00"
-      }
-    ]
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2024-09-04",
+          "date_epoch": 1725408000,
+          "day": {
+
+          },
+          "hour": [
+            {
+              "time_epoch": 1725397200,
+              "time": "2024-09-04 00:00",
+              "temp_c": 26.6,
+              "temp_f": 79.9
+            },
+            {
+              "time_epoch": 1725400800,
+              "time": "2024-09-04 01:00",
+              "temp_c": 26.5,
+              "temp_f": 79.7
+            },
+            {
+              "time_epoch": 1725404400,
+              "time": "2024-09-04 02:00",
+              "temp_c": 26.3,
+              "temp_f": 79.4
+            },
+            {
+              "time_epoch": 1725408000,
+              "time": "2024-09-04 03:00",
+              "temp_c": 26.3,
+              "temp_f": 79.3
+            },
+            {
+              "time_epoch": 1725411600,
+              "time": "2024-09-04 04:00",
+              "temp_c": 26.2,
+              "temp_f": 79.2
+            },
+            {
+              "time_epoch": 1725415200,
+              "time": "2024-09-04 05:00",
+              "temp_c": 26.0,
+              "temp_f": 78.8
+            },
+            {
+              "time_epoch": 1725418800,
+              "time": "2024-09-04 06:00",
+              "temp_c": 26.3,
+              "temp_f": 79.3
+            },
+            {
+              "time_epoch": 1725422400,
+              "time": "2024-09-04 07:00",
+              "temp_c": 26.7,
+              "temp_f": 80.1
+            },
+            {
+              "time_epoch": 1725426000,
+              "time": "2024-09-04 08:00",
+              "temp_c": 27.2,
+              "temp_f": 80.9
+            },
+            {
+              "time_epoch": 1725429600,
+              "time": "2024-09-04 09:00",
+              "temp_c": 27.7,
+              "temp_f": 81.9
+            },
+            {
+              "time_epoch": 1725433200,
+              "time": "2024-09-04 10:00",
+              "temp_c": 28.3,
+              "temp_f": 82.9
+            },
+            {
+              "time_epoch": 1725436800,
+              "time": "2024-09-04 11:00",
+              "temp_c": 28.6,
+              "temp_f": 83.5
+            },
+            {
+              "time_epoch": 1725440400,
+              "time": "2024-09-04 12:00",
+              "temp_c": 28.8,
+              "temp_f": 83.8
+            },
+            {
+              "time_epoch": 1725444000,
+              "time": "2024-09-04 13:00",
+              "temp_c": 28.8,
+              "temp_f": 83.9
+            },
+            {
+              "time_epoch": 1725447600,
+              "time": "2024-09-04 14:00",
+              "temp_c": 28.7,
+              "temp_f": 83.7
+            },
+            {
+              "time_epoch": 1725451200,
+              "time": "2024-09-04 15:00",
+              "temp_c": 31.1,
+              "temp_f": 88.0
+            },
+            {
+              "time_epoch": 1725454800,
+              "time": "2024-09-04 16:00",
+              "temp_c": 28.5,
+              "temp_f": 83.3
+            },
+            {
+              "time_epoch": 1725458400,
+              "time": "2024-09-04 17:00",
+              "temp_c": 28.2,
+              "temp_f": 82.7
+            },
+            {
+              "time_epoch": 1725462000,
+              "time": "2024-09-04 18:00",
+              "temp_c": 27.6,
+              "temp_f": 81.6
+            },
+            {
+              "time_epoch": 1725465600,
+              "time": "2024-09-04 19:00",
+              "temp_c": 27.3,
+              "temp_f": 81.1
+            },
+            {
+              "time_epoch": 1725469200,
+              "time": "2024-09-04 20:00",
+              "temp_c": 27.1,
+              "temp_f": 80.8
+            },
+            {
+              "time_epoch": 1725472800,
+              "time": "2024-09-04 21:00",
+              "temp_c": 26.9,
+              "temp_f": 80.4
+            },
+            {
+              "time_epoch": 1725476400,
+              "time": "2024-09-04 22:00",
+              "temp_c": 26.7,
+              "temp_f": 80.1
+            },
+            {
+              "time_epoch": 1725480000,
+              "time": "2024-09-04 23:00",
+              "temp_c": 26.5,
+              "temp_f": 79.7
+            }
+          ]
+        }
+      ]
+    }
   },
   {
-    "coord": {
-      "lon": -118.3267,
-      "lat": 34.0983
+    "location": {
+      "name": "London",
+      "region": "City of London, Greater London",
+      "country": "United Kingdom",
+      "lat": 51.52,
+      "lon": -0.11,
+      "tz_id": "Europe/London",
+      "localtime_epoch": 1725452829,
+      "localtime": "2024-09-04 13:27"
     },
-    "weather": [
-      {
-        "id": 701,
-        "main": "Mist",
-        "description": "mist",
-        "icon": "50d"
-      }
-    ],
-    "base": "stations",
-    "main": {
-      "temp": 19.46,
-      "feels_like": 19.65,
-      "temp_min": 17.47,
-      "temp_max": 22.33,
-      "pressure": 1013,
-      "humidity": 84,
-      "sea_level": 1013,
-      "grnd_level": 991
+    "current": {
+      "last_updated_epoch": 1725452100,
+      "last_updated": "2024-09-04 13:15",
+      "temp_c": 18.2,
+      "temp_f": 64.8,
+      "wind_mph": 5.6,
+      "wind_kph": 9.0,
+      "precip_mm": 0.11,
+      "precip_in": 0.0
     },
-    "visibility": 10000,
-    "wind": {
-      "speed": 2.06,
-      "deg": 280
-    },
-    "clouds": {
-      "all": 0
-    },
-    "dt": 1725374778,
-    "sys": {
-      "type": 1,
-      "id": 3514,
-      "country": "US",
-      "sunrise": 1725370128,
-      "sunset": 1725416194
-    },
-    "timezone": -25200,
-    "id": 5357527,
-    "name": "Hollywood",
-    "cod": 200,
-    "forecast": [
-      {
-        "dt": 1725375600,
-        "main": {
-          "temp": 19.46,
-          "feels_like": 19.65,
-          "temp_min": 19.46,
-          "temp_max": 24.53,
-          "pressure": 1013,
-          "sea_level": 1013,
-          "grnd_level": 991,
-          "humidity": 84,
-          "temp_kf": -5.07
-        },
-        "weather": [
-          {
-            "id": 800,
-            "main": "Clear",
-            "description": "clear sky",
-            "icon": "01d"
-          }
-        ],
-        "clouds": {
-          "all": 0
-        },
-        "wind": {
-          "speed": 1.16,
-          "deg": 215,
-          "gust": 0.74
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "d"
-        },
-        "dt_txt": "2024-09-03 15:00:00"
-      },
-      {
-        "dt": 1725386400,
-        "main": {
-          "temp": 22.95,
-          "feels_like": 23.1,
-          "temp_min": 22.95,
-          "temp_max": 29.93,
-          "pressure": 1013,
-          "sea_level": 1013,
-          "grnd_level": 991,
-          "humidity": 69,
-          "temp_kf": -6.98
-        },
-        "weather": [
-          {
-            "id": 800,
-            "main": "Clear",
-            "description": "clear sky",
-            "icon": "01d"
-          }
-        ],
-        "clouds": {
-          "all": 0
-        },
-        "wind": {
-          "speed": 2.3,
-          "deg": 229,
-          "gust": 1.67
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "d"
-        },
-        "dt_txt": "2024-09-03 18:00:00"
-      },
-      {
-        "dt": 1725397200,
-        "main": {
-          "temp": 27.45,
-          "feels_like": 28.01,
-          "temp_min": 27.45,
-          "temp_max": 31.44,
-          "pressure": 1012,
-          "sea_level": 1012,
-          "grnd_level": 990,
-          "humidity": 52,
-          "temp_kf": -3.99
-        },
-        "weather": [
-          {
-            "id": 800,
-            "main": "Clear",
-            "description": "clear sky",
-            "icon": "01d"
-          }
-        ],
-        "clouds": {
-          "all": 2
-        },
-        "wind": {
-          "speed": 4.09,
-          "deg": 225,
-          "gust": 3.89
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "d"
-        },
-        "dt_txt": "2024-09-03 21:00:00"
-      },
-      {
-        "dt": 1725408000,
-        "main": {
-          "temp": 32.67,
-          "feels_like": 31.47,
-          "temp_min": 32.67,
-          "temp_max": 32.67,
-          "pressure": 1010,
-          "sea_level": 1010,
-          "grnd_level": 988,
-          "humidity": 29,
-          "temp_kf": 0
-        },
-        "weather": [
-          {
-            "id": 800,
-            "main": "Clear",
-            "description": "clear sky",
-            "icon": "01d"
-          }
-        ],
-        "clouds": {
-          "all": 2
-        },
-        "wind": {
-          "speed": 3.95,
-          "deg": 231,
-          "gust": 4.67
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "d"
-        },
-        "dt_txt": "2024-09-04 00:00:00"
-      },
-      {
-        "dt": 1725418800,
-        "main": {
-          "temp": 30.99,
-          "feels_like": 29.47,
-          "temp_min": 30.99,
-          "temp_max": 30.99,
-          "pressure": 1010,
-          "sea_level": 1010,
-          "grnd_level": 989,
-          "humidity": 27,
-          "temp_kf": 0
-        },
-        "weather": [
-          {
-            "id": 800,
-            "main": "Clear",
-            "description": "clear sky",
-            "icon": "01n"
-          }
-        ],
-        "clouds": {
-          "all": 0
-        },
-        "wind": {
-          "speed": 0.94,
-          "deg": 174,
-          "gust": 2.56
-        },
-        "visibility": 10000,
-        "pop": 0,
-        "sys": {
-          "pod": "n"
-        },
-        "dt_txt": "2024-09-04 03:00:00"
-      }
-    ]
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2024-09-04",
+          "date_epoch": 1725408000,
+          "day": {
+
+          },
+          "hour": [
+            {
+              "time_epoch": 1725404400,
+              "time": "2024-09-04 00:00",
+              "temp_c": 16.9,
+              "temp_f": 62.5
+            },
+            {
+              "time_epoch": 1725408000,
+              "time": "2024-09-04 01:00",
+              "temp_c": 16.0,
+              "temp_f": 60.8
+            },
+            {
+              "time_epoch": 1725411600,
+              "time": "2024-09-04 02:00",
+              "temp_c": 15.4,
+              "temp_f": 59.7
+            },
+            {
+              "time_epoch": 1725415200,
+              "time": "2024-09-04 03:00",
+              "temp_c": 15.5,
+              "temp_f": 59.8
+            },
+            {
+              "time_epoch": 1725418800,
+              "time": "2024-09-04 04:00",
+              "temp_c": 15.1,
+              "temp_f": 59.1
+            },
+            {
+              "time_epoch": 1725422400,
+              "time": "2024-09-04 05:00",
+              "temp_c": 14.7,
+              "temp_f": 58.4
+            },
+            {
+              "time_epoch": 1725426000,
+              "time": "2024-09-04 06:00",
+              "temp_c": 14.5,
+              "temp_f": 58.1
+            },
+            {
+              "time_epoch": 1725429600,
+              "time": "2024-09-04 07:00",
+              "temp_c": 15.5,
+              "temp_f": 59.8
+            },
+            {
+              "time_epoch": 1725433200,
+              "time": "2024-09-04 08:00",
+              "temp_c": 16.6,
+              "temp_f": 61.8
+            },
+            {
+              "time_epoch": 1725436800,
+              "time": "2024-09-04 09:00",
+              "temp_c": 17.6,
+              "temp_f": 63.7
+            },
+            {
+              "time_epoch": 1725440400,
+              "time": "2024-09-04 10:00",
+              "temp_c": 18.8,
+              "temp_f": 65.9
+            },
+            {
+              "time_epoch": 1725444000,
+              "time": "2024-09-04 11:00",
+              "temp_c": 19.8,
+              "temp_f": 67.7
+            },
+            {
+              "time_epoch": 1725447600,
+              "time": "2024-09-04 12:00",
+              "temp_c": 20.5,
+              "temp_f": 69.0
+            },
+            {
+              "time_epoch": 1725451200,
+              "time": "2024-09-04 13:00",
+              "temp_c": 18.2,
+              "temp_f": 64.8
+            },
+            {
+              "time_epoch": 1725454800,
+              "time": "2024-09-04 14:00",
+              "temp_c": 19.9,
+              "temp_f": 67.9
+            },
+            {
+              "time_epoch": 1725458400,
+              "time": "2024-09-04 15:00",
+              "temp_c": 19.2,
+              "temp_f": 66.6
+            },
+            {
+              "time_epoch": 1725462000,
+              "time": "2024-09-04 16:00",
+              "temp_c": 18.6,
+              "temp_f": 65.4
+            },
+            {
+              "time_epoch": 1725465600,
+              "time": "2024-09-04 17:00",
+              "temp_c": 18.0,
+              "temp_f": 64.3
+            },
+            {
+              "time_epoch": 1725469200,
+              "time": "2024-09-04 18:00",
+              "temp_c": 17.4,
+              "temp_f": 63.2
+            },
+            {
+              "time_epoch": 1725472800,
+              "time": "2024-09-04 19:00",
+              "temp_c": 16.8,
+              "temp_f": 62.2
+            },
+            {
+              "time_epoch": 1725476400,
+              "time": "2024-09-04 20:00",
+              "temp_c": 16.6,
+              "temp_f": 61.9
+            },
+            {
+              "time_epoch": 1725480000,
+              "time": "2024-09-04 21:00",
+              "temp_c": 16.3,
+              "temp_f": 61.4
+            },
+            {
+              "time_epoch": 1725483600,
+              "time": "2024-09-04 22:00",
+              "temp_c": 16.1,
+              "temp_f": 60.9
+            },
+            {
+              "time_epoch": 1725487200,
+              "time": "2024-09-04 23:00",
+              "temp_c": 15.3,
+              "temp_f": 59.6
+            }
+          ]
+        }
+      ]
+    }
   }
 ]

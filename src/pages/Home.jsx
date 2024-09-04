@@ -10,13 +10,15 @@ export default function Home() {
     const [city, setCity] = useState('')
     const [weatherData, setWeatherData] = useState(null)
     const [cities, setCities] = useState([])
-
-    const debouncedCity = useDebounce(city, 500)
+    const debouncedCity = useDebounce(city, 1000)
 
     useEffect(() => {
         if (debouncedCity) {
+            console.log('debouncedCity: ', debouncedCity);
+            
             weatherService.query(debouncedCity)
-            console.log(debouncedCity)
+                .then(res => setCities(res))
+                .catch(err => console.error('Failed to fetch cities:', err))
         }
     }, [debouncedCity])
 
@@ -26,35 +28,44 @@ export default function Home() {
     }
 
     function handleSubmit(ev) {
-        ev.preventDefault();
-        if (city) {
-            fetchWeather(city);
+        ev.preventDefault()
+        console.log(city);
+        
+        const cityName = ev.target.value
+        fetchWeather(city)
+    }
 
+    async function fetchWeather(cityName) {
+        try {
+            const data = await weatherService.query(cityName)
+            setWeatherData(data)
+            console.log('weatherData: ', weatherData);
+            
+        } catch (error) {
+            console.error('Failed to fetch weather data:', error)
         }
     }
 
-    function fetchWeather(cityName) {
-		console.log('fetchWeather', cityName);
-		
-	}
-
     return (
-        <>
-            <main className="main-container">
-                <aside className="hero">
-                    <AppHeader />
-                    <CitySearch
-                        city={city}
-                        setCity={setCity}
-                        cities={cities}
-                        setCities={setCities}
-                        handleCitySelect={handleCitySelect}
-                        handleSubmit={handleSubmit}
-                    />
-                    <AppFooter />
-                </aside>
+        <main className="main-container">
+            <aside className="hero">
+                <AppHeader />
+                <CitySearch
+                    city={city}
+                    setCity={setCity}
+                    cities={cities}
+                    setCities={setCities}
+                    handleCitySelect={handleCitySelect}
+                    handleSubmit={handleSubmit}
+                    debouncedFilterCities={weatherService.query}
+                />
+                <AppFooter />
+            </aside>
+            {/* {weatherData ? ( */}
                 <WeatherDisplay weatherData={weatherData} />
-            </main>
-        </>
+            {/* ) : (
+                <p>Please search for a city to see the weather.</p>
+            )} */}
+        </main>
     )
 }

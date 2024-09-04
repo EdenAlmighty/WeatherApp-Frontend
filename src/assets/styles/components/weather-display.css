@@ -16,7 +16,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 6.75rem 2em 2em;
+    padding: 6.6875rem 2em 2em;
     row-gap: 2.6875rem;
     text-align: center;
     background-color: var(--clr-blue);
@@ -42,7 +42,7 @@
       span,
       p {
         font-family: heebo-exl;
-        font-size: 2.625rem;
+        font-size: 2.25rem;
         color: var(--clr-blue-gray);
       }
 
@@ -53,20 +53,21 @@
     }
 
     .weather-temperature {
-      margin: 2.875rem;
+      margin: 2.75rem;
       position: relative;
+      margin-block-end: 3rem;
 
       h1 {
         font-family: heebo;
         margin-right: 1.375rem;
-        letter-spacing: -1.5rem;
+        letter-spacing: -0.5rem;
         font-size: 14.3125rem;
         line-height: 0.7;
 
         .degree-sign {
           position: absolute;
           top: -25%;
-          right: -20%;
+          right: -10%;
           height: 3.4375rem;
         }
       }
@@ -81,8 +82,9 @@
 
     .weather-details {
       display: flex;
-      gap: 3.9375rem;
+      /* gap: 3.75rem; */
       margin: 0.125rem 0 1rem;
+      min-width: 37.875rem;
 
       span {
         font-size: 2.375rem;
@@ -93,8 +95,16 @@
         font-size: 2.1875rem;
       }
 
-      div:last-of-type {
-        padding-left: 0.875rem;
+      .precipitation {
+        padding-inline-end: 62px;
+      }
+
+      .humidity {
+        padding-inline-end: 56px;
+      }
+
+      .wind {
+        width: 154px;
       }
     }
 
@@ -106,22 +116,25 @@
         position: relative;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        row-gap: 0.5rem;
 
         .degree-sign {
           position: absolute;
           top: 35%;
-          right: 1rem;
+          right: 14%;
           height: 0.5rem;
         }
       }
 
-      span,
+      span {
+        font-size: 2.125rem;
+        line-height: 0.1;
+        color: var(--clr-blue-gray);
+      }
+
       p {
         font-size: 2.125rem;
         font-family: heebo-m;
-        color: var(--clr-blue-gray);
-        line-height: 0.1;
       }
     }
   }
