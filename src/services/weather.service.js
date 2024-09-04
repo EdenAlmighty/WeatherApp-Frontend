@@ -6,19 +6,18 @@ let runTimeCache = {}
 export const weatherService = {
   query,
   getWeather,
-  getDefaultWeather
+  getDefaultWeather,
+  getCities
 }
 
 async function query(city) {
   const cityUpper = city.toUpperCase()
-
+  console.log('cityUpper: ', cityUpper)
   if (runTimeCache[cityUpper]) {
     return formatWeatherData(runTimeCache[cityUpper])
   }
 
   const storedWeatherData = utilService.loadFromStorage(WEATHER_KEY) || []
-  console.log('storedWeatherData: ', storedWeatherData)
-
   const cityWeather = storedWeatherData.find(item => item.location.name.toUpperCase() === cityUpper)
 
   if (cityWeather) {
@@ -97,8 +96,16 @@ function getDefaultWeather() {
 }
 
 async function getCities(query) {
-  console.log('getCities: ', getCities)
+  const queryUpper = query.toUpperCase()
+  const filteredCityResults = cityResults
+    .filter(item => item.name.toUpperCase().includes(queryUpper))
+    .map(item => ({
+      name: item.name,
+      country: item.country
+    }))
+  return filteredCityResults
 }
+
 
 const weatherData = [
   {
@@ -637,5 +644,53 @@ const weatherData = [
         }
       ]
     }
+  }
+]
+
+const cityResults = [
+  {
+    "id": 2801268,
+    "name": "London",
+    "region": "City of London, Greater London",
+    "country": "United Kingdom",
+    "lat": 51.52,
+    "lon": -0.11,
+    "url": "london-city-of-london-greater-london-united-kingdom"
+  },
+  {
+    "id": 2548753,
+    "name": "Long Beach",
+    "region": "California",
+    "country": "United States of America",
+    "lat": 33.77,
+    "lon": -118.19,
+    "url": "long-beach-california-united-states-of-america"
+  },
+  {
+    "id": 279381,
+    "name": "Londrina",
+    "region": "Parana",
+    "country": "Brazil",
+    "lat": -23.3,
+    "lon": -51.15,
+    "url": "londrina-parana-brazil"
+  },
+  {
+    "id": 315398,
+    "name": "London",
+    "region": "Ontario",
+    "country": "Canada",
+    "lat": 42.98,
+    "lon": -81.25,
+    "url": "london-ontario-canada"
+  },
+  {
+    "id": 2722776,
+    "name": "Long Xuyen",
+    "region": "",
+    "country": "Vietnam",
+    "lat": 10.38,
+    "lon": 105.42,
+    "url": "long-xuyen-vietnam"
   }
 ]

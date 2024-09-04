@@ -10,6 +10,7 @@
 /* Components */
 @import './components/app-header.css';
 @import './components/city-search.css';
+@import './components/suggestions.css';
 @import './components/weather-display.css';
 @import './components/weather-location.css';
 @import './components/weather-temp.css';

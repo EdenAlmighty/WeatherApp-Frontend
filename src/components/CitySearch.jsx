@@ -1,25 +1,13 @@
 import React from 'react'
+import Suggestions from './Suggestions'
 
 export default function CitySearch({
     city,
-    setCity,
     cities,
-    setCities,
     handleCitySelect,
     handleSubmit,
-    debouncedFilterCities
+    handleChange
 }) {
-    function handleChange(ev) {
-        const value = ev.target.value
-        setCity(value)
-        if (value.length > 2) {
-            debouncedFilterCities(value)
-                .then(res => setCities(res))
-                .catch(err => console.error('Failed to filter cities:', err))
-        } else {
-            setCities([])
-        }
-    }
 
     return (
         <section className="search-container">
@@ -27,7 +15,7 @@ export default function CitySearch({
                 to see the weather<br />
                 around the world</span>
             <label htmlFor="search">City name</label>
-            <form className="input-container" onSubmit={handleSubmit} role="search" aria-label="search">
+            <form className="input-container" onSubmit={handleSubmit} role="search" aria-label="search" autoComplete='off'>
                 <input
                     type="text"
                     name='cityName'
@@ -40,20 +28,11 @@ export default function CitySearch({
                     onChange={handleChange}
                 />
                 <button type="submit">Check</button>
+                {cities.length > 0 && (
+                    <Suggestions cities={cities} handleCitySelect={handleCitySelect} />
+                )}
             </form>
-            {cities.length > 0 && (
-                <ul style={{ listStyleType: 'none', padding: 0 }}>
-                    {cities.map((city, idx) => (
-                        <li
-                            key={idx}
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => handleCitySelect(city)}
-                        >
-                            {city.name}, {city.country}
-                        </li>
-                    ))}
-                </ul>
-            )}
+
         </section>
     )
 }

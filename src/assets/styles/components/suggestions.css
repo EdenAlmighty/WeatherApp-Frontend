@@ -1,0 +1,25 @@
+.suggestions {
+  transform: translate(0%, 55%);
+  position: absolute;
+  width: 100%;
+
+  ul {
+    border-radius: 1rem;
+    padding: 0;
+  }
+
+  li {
+    background-color: var(--clr-white);
+    padding: 1em;
+    font-size: 20px;
+    transition: background-color 0.1s ease-in-out;
+
+    &:hover {
+      background-color: var(--clr-l-blue);
+    }
+
+    &:not(:first-of-type) {
+      border-top: 1px solid var(--clr-blue-gray);
+    }
+  }
+}

@@ -13,25 +13,36 @@ export default function Home() {
     const debouncedCity = useDebounce(city, 1000)
 
     useEffect(() => {
-        if (debouncedCity) {
-            console.log('debouncedCity: ', debouncedCity);
-            
-            weatherService.query(debouncedCity)
-                .then(res => setCities(res))
-                .catch(err => console.error('Failed to fetch cities:', err))
+        if (debouncedCity.length > 2) {
+            onGetCities(debouncedCity)
+        } else {
+            setCities([])
         }
     }, [debouncedCity])
 
-    function handleCitySelect(city) {
-        setCity(city.name)
-        fetchWeather(city.name)
+    async function onGetCities() {
+        try {
+            const data = await weatherService.getCities(debouncedCity)
+            setCities(data)
+            console.log('cities: ', data);
+            
+        } catch (error) {
+            console.error('Failed to fetch cities:', error)
+        }
+    }
+
+    function handleChange(ev) {
+        const value = ev.target.value
+        setCity(value)
+    }
+
+    function handleCitySelect(selectedCity) {
+        setCity(selectedCity.name)
+        fetchWeather(selectedCity.name)
     }
 
     function handleSubmit(ev) {
         ev.preventDefault()
-        console.log(city);
-        
-        const cityName = ev.target.value
         fetchWeather(city)
     }
 
@@ -39,10 +50,13 @@ export default function Home() {
         try {
             const data = await weatherService.query(cityName)
             setWeatherData(data)
-            console.log('weatherData: ', weatherData);
-            
+            console.log('weatherData: ', data)
+
         } catch (error) {
             console.error('Failed to fetch weather data:', error)
+        } finally {
+            setCities([])
+            setCity('')
         }
     }
 
@@ -57,15 +71,11 @@ export default function Home() {
                     setCities={setCities}
                     handleCitySelect={handleCitySelect}
                     handleSubmit={handleSubmit}
-                    debouncedFilterCities={weatherService.query}
+                    handleChange={handleChange}
                 />
                 <AppFooter />
             </aside>
-            {/* {weatherData ? ( */}
-                <WeatherDisplay weatherData={weatherData} />
-            {/* ) : (
-                <p>Please search for a city to see the weather.</p>
-            )} */}
+            <WeatherDisplay weatherData={weatherData} />
         </main>
     )
 }
