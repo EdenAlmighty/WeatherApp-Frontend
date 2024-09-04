@@ -1,15 +1,16 @@
 .search-container {
   display: flex;
+  position: relative;
   flex-direction: column;
   margin-inline-start: 5.625em;
-
+  
   span {
     padding-block: 4.375rem;
     font-size: 3.5rem;
     color: var(--txt-gray);
     line-height: 1.5;
   }
-
+  
   label {
     margin: 1rem 0 0.75rem 1.375rem;
     font-size: 1.875rem;

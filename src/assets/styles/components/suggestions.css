@@ -1,18 +1,24 @@
 .suggestions {
-  transform: translate(0%, 55%);
   position: absolute;
   width: 100%;
-
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  transform: translateY(0%);
+  background-color: var(--clr-white);
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px 2px rgb(0 0 0 / 7%);
   ul {
-    border-radius: 1rem;
     padding: 0;
+    margin: 0;
+    list-style: none;
   }
 
   li {
-    background-color: var(--clr-white);
     padding: 1em;
     font-size: 20px;
     transition: background-color 0.1s ease-in-out;
+    cursor: pointer;
 
     &:hover {
       background-color: var(--clr-l-blue);
