@@ -20,24 +20,24 @@ export default function Home() {
         }
     }, [debouncedCity])
 
-
+    // Fetch default weather data via IP address on first render
     useEffect(() => {
-        async function fetchDefaultWeather() {
-            try {
-                const data = await weatherService.getCityByIp()
-                console.log('data: ', data);
-                
-                const cityName = data.location.name || 'London'
-                setCity(cityName)
-                await fetchWeather(cityName)
-            } catch (err) {
-                console.err('Failed to fetch default weather data:', err)
-                await fetchWeather('London')
-            }
-        }
-
         fetchDefaultWeather()
     }, [])
+
+    async function fetchDefaultWeather() {
+        try {
+            const data = await weatherService.getCityByIp()
+            console.log('data: ', data);
+
+            const cityName = data.location?.name || 'London'
+            setCity(cityName)
+            await fetchWeather(cityName)
+        } catch (err) {
+            console.error('Failed to fetch default weather data:', err)
+            await fetchWeather('London')
+        }
+    }
 
     async function onGetCities(cityName) {
         try {
@@ -45,10 +45,9 @@ export default function Home() {
             setCities(data)
             console.log('cities: ', data)
         } catch (err) {
-            console.err('Failed to fetch cities:', err)
+            console.error('Failed to fetch cities:', err)
         }
     }
-
 
     function handleChange(ev) {
         const value = ev.target.value
@@ -56,8 +55,13 @@ export default function Home() {
     }
 
     function handleCitySelect(selectedCity) {
-        setCity(selectedCity.name)
-        fetchWeather(selectedCity.name)
+        console.log('selectedCity: ', selectedCity)
+        if (selectedCity === 'useCurrentLocation') {
+            fetchDefaultWeather()
+        } else {
+            setCity(selectedCity.name)
+            fetchWeather(selectedCity.name)
+        }
     }
 
     function handleSubmit(ev) {
@@ -77,7 +81,7 @@ export default function Home() {
             }
             console.log('weatherData: ', data)
         } catch (err) {
-            console.err('Failed to fetch weather data:', err)
+            console.error('Failed to fetch weather data:', err)
             const defaultData = await weatherService.getByCity('London')
             setWeatherData(defaultData)
         } finally {
@@ -85,7 +89,6 @@ export default function Home() {
             setCity('')
         }
     }
-
 
     return (
         <main className="main-container">

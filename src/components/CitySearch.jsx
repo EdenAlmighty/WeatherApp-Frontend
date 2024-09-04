@@ -6,7 +6,7 @@ export default function CitySearch({
     cities,
     handleCitySelect,
     handleSubmit,
-    handleChange
+    handleChange,
 }) {
 
     return (
