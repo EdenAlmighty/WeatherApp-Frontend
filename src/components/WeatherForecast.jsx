@@ -13,6 +13,8 @@ export default function WeatherForecast({ forecast }) {
         const hour = parseInt(item.time.split(':')[0])
         return hour >= startHour && hour <= endHour
     })
+    console.log('forecast: ', forecast);
+    
     return (
         <ul className="weather-forecast">
             {filteredForecast.map((item, idx) => (

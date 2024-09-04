@@ -4,7 +4,7 @@ import AppFooter from "../components/AppFooter"
 import CitySearch from "../components/CitySearch"
 import WeatherDisplay from "../components/WeatherDisplay"
 import { useDebounce } from "../hooks/useDebounce"
-import { weatherService } from "../services/weather.service.old"
+import { weatherService } from "../services/weather.service"
 
 export default function Home() {
     const [city, setCity] = useState('')
@@ -18,18 +18,18 @@ export default function Home() {
         } else {
             setCities([])
         }
-    }, [debouncedCity])
+    }, [debouncedCity])    
 
-    async function onGetCities() {
+    async function onGetCities(cityName) {
         try {
-            const data = await weatherService.getCities(debouncedCity)
+            const data = await weatherService.query(cityName)
             setCities(data)
-            console.log('cities: ', data);
-            
+            console.log('cities: ', data)
         } catch (error) {
             console.error('Failed to fetch cities:', error)
         }
     }
+    
 
     function handleChange(ev) {
         const value = ev.target.value
@@ -48,7 +48,7 @@ export default function Home() {
 
     async function fetchWeather(cityName) {
         try {
-            const data = await weatherService.query(cityName)
+            const data = await weatherService.getByCity(cityName)
             setWeatherData(data)
             console.log('weatherData: ', data)
 
@@ -75,7 +75,8 @@ export default function Home() {
                 />
                 <AppFooter />
             </aside>
-            <WeatherDisplay weatherData={weatherData} />
+            {weatherData && <WeatherDisplay weatherData={weatherData} />}
+            {/* <WeatherDisplay weatherData={weatherData} /> */}
         </main>
     )
 }

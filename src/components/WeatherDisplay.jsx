@@ -18,11 +18,13 @@ export default function WeatherDisplay({ weatherData }) {
         windSpeed,
         localTime,
         forecast
-    } = weatherData || weatherService.getDefaultWeather()
+    } = weatherData
 
     const formattedDate = utilService.formatDate(localTime * 1000)
 
     console.log('weatherData: ', weatherData);
+
+    if(!weatherData) return null
     return (
         <aside className='weather-container'>
             <section className='weather-widget'>

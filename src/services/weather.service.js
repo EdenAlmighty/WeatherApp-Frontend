@@ -5,6 +5,7 @@ export const weatherService = {
     getByCity,
 }
 
+
 function query(searchValue) {
     return httpService.get(`weather/search`, { q: searchValue })
 }
