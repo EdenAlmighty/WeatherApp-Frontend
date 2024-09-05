@@ -3,16 +3,17 @@ import ForecastPreview from './ForecastPreview'
 import { utilService } from '../services/util.service'
 
 export default function WeatherForecast({ forecast }) {
-    const now = new Date()
-    const currentHour = now.getHours()
+    const now = Date.now() / 1000
 
-    const startHour = Math.max(0, currentHour - 2)
-    const endHour = Math.min(23, currentHour + 2)
+    const filteredForecast = forecast.filter(item => item.time > now).slice(0, 5)
 
-    const filteredForecast = forecast.filter(item => {
-        const hour = new Date(item.time * 1000).getHours()
-        return hour >= startHour && hour <= endHour
-    })
+    if (filteredForecast.length < 5) {
+        const remainingHoursNeeded = 5 - filteredForecast.length
+        const earlierForecast = forecast.filter(item => item.time <= now)
+            .slice(-remainingHoursNeeded)
+
+        filteredForecast.push(...earlierForecast)
+    }
 
     return (
         <ul className="weather-forecast">

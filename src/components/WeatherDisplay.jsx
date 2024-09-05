@@ -6,7 +6,7 @@ import WeatherDetails from './WeatherDetails'
 import WeatherTemp from './WeatherTemp'
 import WeatherLocation from './WeatherLocation'
 
-export default function WeatherDisplay({ weatherData, isLoading }) {
+export default function WeatherDisplay({ weatherData }) {
 
     const {
         cityName = 'Unknown City',
@@ -39,7 +39,6 @@ export default function WeatherDisplay({ weatherData, isLoading }) {
                 <WeatherForecast
                     forecast={forecast} />
             </section>
-
         </aside>
     )
 }
