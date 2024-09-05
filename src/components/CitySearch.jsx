@@ -9,7 +9,8 @@ export default function CitySearch({
     handleChange,
     inputRef,
     placeholder,
-    isLoading
+    isLoading,
+    error
 }) {
     const [showSuggestions, setShowSuggestions] = useState(false)
 
@@ -36,20 +37,23 @@ export default function CitySearch({
                 around the world</span>
             <label htmlFor="search">City name</label>
             <form className="input-container" onSubmit={handleSubmit} role="search" aria-label="Search form" autoComplete='off'>
-                <input
-                    ref={inputRef}
-                    type="text"
-                    name='cityName'
-                    placeholder={placeholder}
-                    className="search"
-                    aria-label="search"
-                    aria-required="true"
-                    required
-                    value={city}
-                    onChange={handleChange}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                />
+                <div className={`input-wrapper ${error ? 'input-error' : ''}`}>
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        name='cityName'
+                        placeholder={placeholder}
+                        className={`search ${error ? 'error' : ''}`}
+                        aria-label="search"
+                        aria-required="true"
+                        required
+                        value={city}
+                        onChange={handleChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                    />
+                    {error && <span className="error-message">Something went wrong. Enter a valid city or try again.</span>}
+                </div>
                 <button type="submit" aria-label="Check weather">
                     {isLoading ?
                         <div className="loader" aria-label="Loading..."></div> : `Check`}

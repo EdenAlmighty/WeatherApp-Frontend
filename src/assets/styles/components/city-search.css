@@ -44,6 +44,23 @@
   }
 }
 
+.input-wrapper {
+  position: relative;
+}
+
+.input-error .search {
+  outline: 2px solid red;
+}
+
+.error-message {
+  color: red;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  font-size: 1.2rem;
+  margin-top: 0.50rem;
+}
+
 .search-title {
   padding-block: 4.375rem;
   font-size: 3.5rem;

@@ -57,6 +57,7 @@ export default function Home() {
 
     function handleChange(ev) {
         const value = ev.target.value
+        setError(null)
         setCity(value)
     }
 
@@ -84,6 +85,7 @@ export default function Home() {
                 setPlaceholder(`${data.cityName}`)
             } else {
                 const defaultData = await weatherService.getByCity('London')
+                setError('No results found. Please try again with a different city.')
                 setWeatherData(defaultData)
             }
         } catch (err) {
@@ -115,6 +117,7 @@ export default function Home() {
                     placeholder={placeholder}
                     setPlaceholder={setPlaceholder}
                     isLoading={isLoading}
+                    error={error}
                 />
                 <AppFooter location={location} />
             </aside>
