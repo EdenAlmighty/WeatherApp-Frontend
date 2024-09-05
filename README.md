@@ -20,14 +20,17 @@ WeatherApp is available for all right <a href="https://weather-app-6iqa.onrender
 <div>
 <img src="https://res.cloudinary.com/die0jjugu/image/upload/v1725501166/3_fatlmc.jpg" width="200">
 </div>
+
 ## Technologies
 - ReactJS
 - Express
+
 ## Packages
 - Frontend:
   - Axios - For HTTP requests.
 - Backend:
   - Cors - For enabling CORS.
+  
 ## Local Installation
 **1. Clone the repo:**
 ```
