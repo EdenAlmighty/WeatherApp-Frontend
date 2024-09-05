@@ -1,28 +1,47 @@
 .weather-temperature {
-    margin: 2.75rem auto 2.75rem auto;
-    position: relative;
+  margin: 2.75rem auto 2.75rem auto;
+  position: relative;
+  margin-block-end: 3rem;
+}
+
+span {
+  font-family: heebo-exl;
+  font-size: 3.4375rem;
+  line-height: 0.9;
+  margin-right: 0.25rem;
+}
+
+.temperature {
+  font-family: heebo;
+  margin-right: 1.375rem;
+  letter-spacing: -0.5rem;
+  font-size: 14.3125rem;
+  line-height: 0.7;
+  width: fit-content;
+}
+
+.degree-sign {
+  position: absolute;
+  top: -25%;
+  right: -15%;
+  height: 3.4375rem;
+}
+
+@media (max-width: 1740px) {
+  .weather-temperature {
+    margin: 3.75rem auto 2.75rem 2rem;
+    position: absolute;
     margin-block-end: 3rem;
-
-  h1 {
-    font-family: heebo;
-    margin-right: 1.375rem;
-    letter-spacing: -0.5rem;
-    font-size: 14.3125rem;
-    line-height: 0.7;
-    width: fit-content;
-
-    .degree-sign {
-      position: absolute;
-      top: -25%;
-      right: -15%;
-      height: 3.4375rem;
-    }
   }
 
+  .temperature {
+    font-size: 10.3125rem;
+  }
+  .degree-sign {
+    height: 1.6rem;
+    right: -10%;
+  }
   span {
-    font-family: heebo-exl;
-    font-size: 3.4375rem;
-    line-height: 0.9;
-    margin-right: 0.25rem;
+    font-size: 2.4375rem;
   }
 }

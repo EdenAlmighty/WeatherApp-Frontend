@@ -3,7 +3,6 @@
   gap: 2.875rem;
   align-self: center;
 
-
   li {
     position: relative;
     display: flex;
@@ -27,5 +26,17 @@
   p {
     font-size: 2.125rem;
     font-family: heebo-m;
+  }
+}
+
+@media (max-width: 1740px) {
+  .weather-forecast {
+    display: flex;
+    gap: 1.875rem;
+    align-self: center;
+
+    span {
+      font-size: 2rem;
+    }
   }
 }

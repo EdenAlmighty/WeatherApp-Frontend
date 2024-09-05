@@ -1,11 +1,11 @@
 footer {
   display: flex;
-  margin-inline-start: 100px;
-  padding-block: 39px;
+  margin-inline-start: 6.25rem;
+  padding-block: 2.4375rem;
   margin-top: auto;
 
   .geo-location {
-    row-gap: 8px;
+    row-gap: 0.5rem;
     flex-direction: column;
     display: flex;
     bottom: 0;
@@ -13,11 +13,17 @@ footer {
   }
   .coords-container {
     gap: 2.625rem;
-    row-gap: 10px;
+    row-gap: 0.625rem;
   }
 
   span {
     display: flex;
     font-size: 1.625rem;
+  }
+}
+
+@media (max-width: 1740px) {
+  footer {
+    scale: 0;
   }
 }

@@ -1,7 +1,21 @@
 header {
   padding-block: 4.0625em;
+}
 
-  & .logo {
-    height: 5em;
+& .logo {
+  height: 5em;
+}
+
+@media (max-width: 1740px) {
+  header {
+    padding-block: 0;
+  }
+
+ 
+}
+
+@media(max-width: 880px){
+  .logo{
+    height: 3rem;
   }
 }

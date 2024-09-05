@@ -7,13 +7,6 @@
   height: 100vh;
   max-width: 2350px;
 
-  .hero {
-    padding: 62px 62px 62px 15px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
   .middle-column {
     flex-basis: 205px;
     flex-shrink: 1;
@@ -26,15 +19,27 @@
   }
 }
 
+.hero {
+  padding: 3.875rem 3.875rem 3.875rem 0.9375rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 /* Media querie*/
 @media (max-width: 1740px) {
   .main-container {
     display: block;
-    flex-direction: column;
+    margin-right: auto;
+    margin-left: auto;
     padding: 2rem;
     gap: 1rem;
   }
-  
+
+  .hero {
+    padding: 2rem;
+  }
+
   .weather-container {
     padding: 0;
   }
@@ -42,6 +47,6 @@
 
 @media (max-width: 768px) {
   .main-container {
-    padding: 1rem;
+    padding: 0;
   }
 }

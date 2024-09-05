@@ -31,7 +31,7 @@ export default function CitySearch({
 
     return (
         <section className="search-container">
-            <span>Use our weather app<br />
+            <span className='search-title'>Use our weather app<br />
                 to see the weather<br />
                 around the world</span>
             <label htmlFor="search">City name</label>
