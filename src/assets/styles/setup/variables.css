@@ -1,4 +1,4 @@
-#root {
+:root {
   /* Primary Colors */
   --clr-black: #363636;
   --clr-white: #ffffff;
@@ -21,7 +21,48 @@
   /* Button Colors */
   --btn-txt: var(--clr-white);
   --btn-txt-dark: var(--clr-black);
-
   --btn-bgc: var(--clr-green);
   --btn-bgc-hover: var(--clr-d-green);
+
+  --toggle-bg: rgb(58, 58, 30);
+  --toggle-bg-checked: var(--clr-white);
+  --slider-thumb: white;
+  --slider-thumb-checked: var(--clr-black);
+  --icon-moon: #ddcb26;
+  --icon-sun: #fff;
+
+  --box-shadow-light: 0 4px 8px rgba(54, 54, 54, 0.3);
+  --box-shadow-dark: 0 4px 8px rgba(255, 255, 255, 0.3);
+
+  --box-shadow: var(--box-shadow-light);
+}
+
+/* Dark Mode Variables */
+[data-theme='dark'] {
+  --clr-black: #e0e0e0;
+  --clr-white: #2a2a2a;
+  --bgc-white: #121212;
+  --clr-green: #1f7a1f;
+
+  --clr-l-blue: #2a2a2a;
+  --clr-gray: #b0b0b0;
+  --clr-d-green: #031f02;
+
+  --bgc-main: #121212;
+  --bgc-box: var(--clr-l-blue);
+  --txt-main: var(--clr-white);
+  --txt-sec: var(--clr-black);
+  --txt-gray: var(--clr-gray);
+
+  /* Button Colors */
+  --btn-txt: var(--clr-black);
+  --btn-txt-dark: var(--clr-white);
+  --btn-bgc: var(--clr-green);
+  --btn-bgc-hover: var(--clr-d-green);
+
+  --toggle-bg-checked: rgb(72, 151, 197);
+  --slider-thumb-checked: var(--clr-black);
+  --icon-moon: #e64646;
+
+  --box-shadow: var(--box-shadow-dark);
 }

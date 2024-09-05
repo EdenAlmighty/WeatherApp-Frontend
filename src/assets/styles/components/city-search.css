@@ -71,7 +71,7 @@
 .search {
   flex-grow: 1;
   font-family: heebo;
-  color: var(--txt-main);
+  color: var(--clr-black);
   font-size: 2.625rem;
   padding-inline: 1.375rem;
   padding-block: 1.8125rem;

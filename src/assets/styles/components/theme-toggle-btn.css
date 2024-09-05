@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  right: 0;
+}
+
+.toggle_label {
+  position: relative;
+  display: inline-block;
+  width: 66px;
+  height: 34px;
+}
+
+.toggle {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--toggle-bg);
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  z-index: 2;
+  position: absolute;
+  content: '';
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  background-color: var(--slider-thumb);
+  transition: 0.4s;
+  left: 4px;
+  bottom: 4px;
+}
+
+input:checked + .slider {
+  background-color: var(--toggle-bg-checked);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+  background-color: var(--slider-thumb-checked);
+}
+
+/* Icons styling */
+.moon,
+.sun {
+  position: absolute;
+  height: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+}
+
+.moon {
+  right: 4px;
+  color: var(--icon-moon);
+}
+
+.sun {
+  left: 4px;
+  color: var(--icon-sun);
+}

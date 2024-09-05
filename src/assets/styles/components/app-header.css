@@ -4,6 +4,7 @@ header {
 
 & .logo {
   height: 5em;
+  color: white;
 }
 
 @media (max-width: 1740px) {

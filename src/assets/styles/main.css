@@ -9,6 +9,7 @@
 
 /* Components */
 @import './components/loader.css';
+@import './components/theme-toggle-btn.css';
 @import './components/app-header.css';
 @import './components/city-search.css';
 @import './components/suggestions.css';
