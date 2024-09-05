@@ -10,12 +10,10 @@ header {
   header {
     padding-block: 0;
   }
-
- 
 }
 
-@media(max-width: 880px){
-  .logo{
+@media (max-width: 880px) {
+  .logo {
     height: 3rem;
   }
 }

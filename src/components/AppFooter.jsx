@@ -1,26 +1,26 @@
-import React from "react";
+import React from "react"
 
 export default function AppFooter({ location }) {
 	const getCurrentDate = () => {
-		const now = new Date();
+		const now = new Date()
 		return now.toLocaleString('en-GB', {
 			day: '2-digit',
 			month: '2-digit',
 			year: 'numeric',
 			hour: '2-digit',
 			minute: '2-digit',
-		}).replace(',', ' at');
-	};
+		}).replace(',', ' at')
+	}
 
 	return (
 		<footer>
 			<section className="geo-location">
 				<div className="coords-container flex">
-					<span>latitude {location.lat}</span>
-					<span>longitude {location.lon}</span>
+					<span>Latitude: {location.lat}</span>
+					<span>Longitude: {location.lon}</span>
 				</div>
-				{location && <span>accurate to {getCurrentDate()}</span>}
+				{location && <span>Accurate to: {getCurrentDate()}</span>}
 			</section>
 		</footer>
-	);
+	)
 }

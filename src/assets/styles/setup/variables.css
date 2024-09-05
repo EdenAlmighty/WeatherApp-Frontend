@@ -24,9 +24,4 @@
 
   --btn-bgc: var(--clr-green);
   --btn-bgc-hover: var(--clr-d-green);
-
-  /* Breakpoints */
-  --mobile-breakpoint: 880px;
-  --narrow-breakpoint: 720px;
-  --normal-breakpoint: 960px;
 }

@@ -6,13 +6,14 @@ export default function Suggestions({ cities, handleCitySelect }) {
             <li
                 onMouseDown={() => handleCitySelect({ selectedCity: { name: 'useCurrentLocation' } })}
                 className='location'
+                role="option"
+                aria-label="Use current location"
             >
                 <img
                     src="/locationIcon.svg"
-                    alt="location icon"
+                    alt="Location icon"
                     className="location-icon"
                     style={{ marginRight: '0.5rem' }}
-                    aria-label='location'
                 />
                 Use Current Location
             </li>
@@ -22,6 +23,8 @@ export default function Suggestions({ cities, handleCitySelect }) {
                     key={idx}
                     style={{ cursor: 'pointer' }}
                     onMouseDown={() => handleCitySelect({ selectedCity: city })}
+                    role="option"
+                    aria-label={`${city.name}, ${city.country}`}
                 >
                     {city.name}, {city.country}
                 </li>

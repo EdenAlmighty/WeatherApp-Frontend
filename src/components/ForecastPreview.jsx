@@ -5,7 +5,7 @@ export default function ForecastPreview({ time, temp }) {
         <li>
             <span>{time}</span>
             <p>{Math.floor(temp)}</p>
-            <img src='/degreeIcon.svg' alt='degree icon' className='degree-sign' />
+            <img src='/degreeIcon.svg' alt='Degree icon' className='degree-sign' />
         </li>
     )
 }

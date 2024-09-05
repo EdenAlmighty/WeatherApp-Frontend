@@ -15,7 +15,7 @@ export default function Home() {
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
 
-    const debouncedCity = useDebounce(city, 1000)
+    const debouncedCity = useDebounce(city, 600)
     const inputRef = useRef(null)
 
     useEffect(() => {
@@ -33,11 +33,11 @@ export default function Home() {
     async function fetchDefaultWeather() {
         try {
             const data = await weatherService.getCityByIp()
-            console.log('data: ', data)
-
             const cityName = data.location?.name || 'London'
+
             setCity(cityName)
             setLocation({ lat: data.location.lat, lon: data.location.lon })
+
             await fetchWeather(cityName)
         } catch (err) {
             console.error('Failed to fetch default weather data:', err)
@@ -48,8 +48,8 @@ export default function Home() {
     async function onGetCities(cityName) {
         try {
             const data = await weatherService.query(cityName)
+
             setCities(data)
-            console.log('cities: ', data)
         } catch (err) {
             console.error('Failed to fetch cities:', err)
         }
@@ -61,8 +61,6 @@ export default function Home() {
     }
 
     function handleCitySelect({ selectedCity }) {
-        console.log('selectedCity: ', selectedCity);
-
         if (selectedCity.name == 'useCurrentLocation') {
             fetchDefaultWeather()
         } else {

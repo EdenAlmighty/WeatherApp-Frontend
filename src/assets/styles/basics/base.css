@@ -79,3 +79,9 @@ li {
 .hide {
   display: none;
 }
+
+img,
+video,
+canvas {
+  overflow: hidden;
+}

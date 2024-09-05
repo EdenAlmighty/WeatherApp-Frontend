@@ -35,7 +35,7 @@ export default function CitySearch({
                 to see the weather<br />
                 around the world</span>
             <label htmlFor="search">City name</label>
-            <form className="input-container" onSubmit={handleSubmit} role="search" aria-label="search" autoComplete='off'>
+            <form className="input-container" onSubmit={handleSubmit} role="search" aria-label="Search form" autoComplete='off'>
                 <input
                     ref={inputRef}
                     type="text"
@@ -50,7 +50,10 @@ export default function CitySearch({
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                 />
-                <button type="submit">{ isLoading ? <div className="loader"></div> : `Check`}</button>
+                <button type="submit" aria-label="Check weather">
+                    {isLoading ?
+                        <div className="loader" aria-label="Loading..."></div> : `Check`}
+                </button>
                 {(cities.length > 0 && showSuggestions) && (
                     <Suggestions
                         cities={cities}
