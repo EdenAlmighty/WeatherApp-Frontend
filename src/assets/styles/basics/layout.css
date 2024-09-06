@@ -28,21 +28,7 @@
 
 /* Media querie*/
 @media (max-width: 1740px) {
-  .main-container {
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
-    padding: 2rem;
-    gap: 1rem;
-  }
 
-  .hero {
-    padding: 2rem;
-  }
-
-  .weather-container {
-    padding: 0;
-  }
 }
 
 @media (max-width: 768px) {

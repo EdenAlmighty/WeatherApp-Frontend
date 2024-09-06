@@ -1,11 +1,11 @@
 footer {
   display: flex;
   margin-inline-start: 6.25rem;
-  padding-block: 2.4375rem;
+  padding-block: 50px;
   margin-top: auto;
 
   .geo-location {
-    row-gap: 0.5rem;
+    row-gap: 1.5rem;
     flex-direction: column;
     display: flex;
     bottom: 0;
@@ -17,6 +17,7 @@ footer {
   }
 
   span {
+    place-self: start;
     display: flex;
     font-size: 1.625rem;
   }

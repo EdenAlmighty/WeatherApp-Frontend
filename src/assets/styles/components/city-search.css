@@ -62,6 +62,7 @@
 }
 
 .search-title {
+  place-self: auto;
   padding-block: 4.375rem;
   font-size: 3.5rem;
   color: var(--txt-gray);

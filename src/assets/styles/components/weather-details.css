@@ -1,8 +1,9 @@
 .weather-details {
-  display: flex;
-  margin: 0.125rem 0 1rem;
-  min-width: 37.875rem;
-  align-self: center;
+    height: 126px;
+    place-self: end;
+    text-align: center;
+    display: flex;
+    min-width: 37.875rem;
 
   span {
     font-size: 2.375rem;
@@ -11,6 +12,13 @@
   p {
     font-family: heebo-m;
     font-size: 2.1875rem;
+  }
+  .precipitation,
+  .humidity,
+  .wind{
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
   }
 
   .precipitation {
@@ -26,21 +34,12 @@
   }
 }
 
-@media (max-width: 1740px) {
-  .weather-details {
-    text-align: left;
-    flex-direction: column;
-    gap: 1em;
-    margin: 0;
-    min-width: 0;
-    align-self: flex-start;
-    padding-block: 1.875rem;
-    padding-inline-start: 1.625rem;
-  }
-
+@media (max-width: 1200px) {
   .precipitation,
-  .humidity {
-    padding-inline-end: 0;
+  .humidity,
+  .wind {
+    padding: 0;
+    width: auto;
   }
 
   .wind {

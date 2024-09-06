@@ -6,7 +6,7 @@ export default function WeatherTemp({ temperature, description }) {
             <h1 className='temperature'>{Math.floor(temperature)}
                 <img src='/degreeIcon.svg' alt='Degree icon' className='degree-sign' />
             </h1>
-            <span>{description}</span>
+            <span className='description'>{description}</span>
         </article>
     )
 }

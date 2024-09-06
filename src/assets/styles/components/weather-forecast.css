@@ -1,7 +1,12 @@
 .weather-forecast {
+  height: 48px;
   display: flex;
+  padding-block-end: -15px;
   gap: 2.875rem;
   align-self: center;
+  text-align: center;
+  place-self: end;
+  justify-self: center;
 
   li {
     position: relative;
