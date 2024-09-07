@@ -177,4 +177,8 @@
     padding-block: 2em;
     margin: 0;
   }
+
+  .toggle_label{
+    margin: 0;
+  }
 }

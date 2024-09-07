@@ -5,6 +5,7 @@ import CitySearch from "../components/CitySearch"
 import WeatherDisplay from "../components/WeatherDisplay"
 import { useDebounce } from "../hooks/useDebounce"
 import { weatherService } from "../services/weather.service"
+import ThemeToggleButton from "../components/ThemeToggleBtn"
 
 export default function Home() {
     const [city, setCity] = useState('')
@@ -102,29 +103,33 @@ export default function Home() {
 
 
     return (
-        <main className="main-container">
-            <aside className="hero">
-                <AppHeader />
-                <CitySearch
-                    city={city}
-                    setCity={setCity}
-                    cities={cities}
-                    setCities={setCities}
-                    handleCitySelect={handleCitySelect}
-                    handleSubmit={handleSubmit}
-                    handleChange={handleChange}
-                    inputRef={inputRef}
-                    placeholder={placeholder}
-                    setPlaceholder={setPlaceholder}
-                    isLoading={isLoading}
-                    error={error}
-                />
-                <AppFooter location={location} />
-            </aside>
+        <>
 
-            {weatherData && (
-                <WeatherDisplay weatherData={weatherData} />
-            )}
-        </main>
+            <main className="main-container">
+                <aside className="hero">
+                    <ThemeToggleButton />
+                    <AppHeader />
+                    <CitySearch
+                        city={city}
+                        setCity={setCity}
+                        cities={cities}
+                        setCities={setCities}
+                        handleCitySelect={handleCitySelect}
+                        handleSubmit={handleSubmit}
+                        handleChange={handleChange}
+                        inputRef={inputRef}
+                        placeholder={placeholder}
+                        setPlaceholder={setPlaceholder}
+                        isLoading={isLoading}
+                        error={error}
+                    />
+                    <AppFooter location={location} />
+                </aside>
+
+                {weatherData && (
+                    <WeatherDisplay weatherData={weatherData} />
+                )}
+            </main>
+        </>
     )
 }
