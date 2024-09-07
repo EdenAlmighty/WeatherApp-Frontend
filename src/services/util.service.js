@@ -3,7 +3,8 @@ export const utilService = {
     loadFromStorage,
     formatDate,
     formatTimestamp,
-    formatCountryName
+    formatCountryName,
+    getNextFiveHours
 }
 
 function saveToStorage(key, value) {
@@ -44,4 +45,20 @@ export function formatCountryName(countryCode) {
         console.error('Error formatting country name:', e)
         return 'Unknown Country'
     }
+}
+
+export function getNextFiveHours(forecast, currentHour) {
+    const flooredHour = Math.floor(currentHour)
+
+    const currentHourIndex = forecast.findIndex(f => {
+        const forecastHour = new Date(f.time * 1000).getHours()
+        return forecastHour === flooredHour
+    })
+
+    const nextFiveHours = [
+        ...forecast.slice(currentHourIndex, currentHourIndex + 5),
+        ...forecast.slice(0, (currentHourIndex + 5) % forecast.length)
+    ].slice(0, 5)
+
+    return nextFiveHours
 }
