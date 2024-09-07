@@ -104,10 +104,8 @@ export default function Home() {
 
     return (
         <>
-
             <main className="main-container">
                 <aside className="hero">
-                    <ThemeToggleButton />
                     <AppHeader />
                     <CitySearch
                         city={city}

@@ -1,5 +1,6 @@
 .weather-temperature {
   padding-inline-end: 4.583rem;
+  height: 12.5em;
   flex-direction: column;
   display: flex;
   position: relative;
@@ -14,7 +15,10 @@ span {
 }
 
 .description {
-  align-self: center;
+  position: absolute;
+  width: max-content;
+  bottom: -30%;
+  transform: translateY(-50%);
 }
 
 .temperature {

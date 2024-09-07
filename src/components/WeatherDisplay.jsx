@@ -5,20 +5,18 @@ import WeatherForecast from './WeatherForecast'
 import WeatherDetails from './WeatherDetails'
 import WeatherTemp from './WeatherTemp'
 import WeatherLocation from './WeatherLocation'
+import ThemeToggleButton from './ThemeToggleBtn'
 
 export default function WeatherDisplay({ weatherData }) {
-    console.log('weatherData', weatherData);
-    
-
     const {
         cityName = 'Unknown City',
         country = 'Unknown Country',
-        temperature = 30,
+        temperature = '?',
         description = 'rainy',
-        precipitation = 0,
-        humidity = 30,
-        windSpeed = 30,
-        localTime = 0,
+        precipitation = '?',
+        humidity = '?',
+        windSpeed = '?',
+        localTime = '?',
         forecast = []
     } = weatherData
 
@@ -26,6 +24,8 @@ export default function WeatherDisplay({ weatherData }) {
 
     return (
         <aside className='weather-container'>
+            <ThemeToggleButton />
+
             <section className='weather-widget'>
                 <WeatherLocation
                     cityName={cityName}
