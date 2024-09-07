@@ -1,7 +1,5 @@
 footer {
   display: flex;
-  margin-inline-start: 6.25rem;
-  padding-block: 50px;
   margin-top: auto;
 
   .geo-location {
@@ -11,8 +9,9 @@ footer {
     bottom: 0;
     color: var(--txt-gray);
   }
+
   .coords-container {
-    gap: 2.625rem;
+    gap: 24px;
     row-gap: 0.625rem;
   }
 
@@ -20,11 +19,5 @@ footer {
     place-self: start;
     display: flex;
     font-size: 1.625rem;
-  }
-}
-
-@media (max-width: 1740px) {
-  footer {
-    scale: 0;
   }
 }

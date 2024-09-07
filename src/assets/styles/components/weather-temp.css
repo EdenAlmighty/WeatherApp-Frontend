@@ -1,15 +1,15 @@
 .weather-temperature {
+  padding-inline-end: 4.583rem;
   flex-direction: column;
   display: flex;
-  padding-block-end: 31px;
   position: relative;
 }
 
 span {
   font-family: heebo-exl;
-  font-size: 3.4375rem;
+  font-size: 2.865rem;
   line-height: 0.9;
-  margin-right: 0.25rem;
+  margin-right: 0.208rem;
   align-self: center;
 }
 
@@ -18,21 +18,19 @@ span {
 }
 
 .temperature {
-  height: 194px;
+  position: relative;
+  padding-block: 0.833rem;
+  height: 12rem;
   font-family: heebo;
   letter-spacing: -0.5rem;
-  font-size: 14.3125em;
-  line-height: -0.3;
+  font-size: 13.5rem;
+  line-height: -0.025;
   width: fit-content;
 }
 
 .degree-sign {
   position: absolute;
-  position: absolute;
   top: -5%;
-  right: -20%;
+  right: -22%;
   height: 3.4375rem;
-}
-
-@media (max-width: 1740px) {
 }

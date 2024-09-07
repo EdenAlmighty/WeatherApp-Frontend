@@ -1,48 +1,29 @@
 .weather-details {
-    height: 126px;
-    place-self: end;
-    text-align: center;
-    display: flex;
-    min-width: 37.875rem;
+  padding-block-start: 2.666rem;
+  padding-inline: 2.4vw;
+  place-self: end;
+  text-align: center;
+  display: flex;
+  min-width: 37.875rem;
 
   span {
-    font-size: 2.375rem;
+    font-size: 2.166em;
   }
 
   p {
     font-family: heebo-m;
     font-size: 2.1875rem;
   }
-  .precipitation,
-  .humidity,
-  .wind{
-    display: flex;
-    flex-direction: column;
-    row-gap: 8px;
-  }
-
-  .precipitation {
-    padding-inline-end: 3.875rem;
-  }
-
-  .humidity {
-    padding-inline-end: 3.5rem;
-  }
-
-  .wind {
-    width: 9.625rem;
-  }
 }
 
-@media (max-width: 1200px) {
-  .precipitation,
-  .humidity,
-  .wind {
-    padding: 0;
-    width: auto;
-  }
+.precipitation {
+  padding-inline-end: 3.875em;
+}
 
-  .wind {
-    width: auto;
-  }
+.humidity {
+  padding-inline-end: 3.5em;
+}
+
+.wind {
+  width: 9.625em;
 }

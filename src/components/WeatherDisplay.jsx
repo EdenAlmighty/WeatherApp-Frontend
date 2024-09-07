@@ -7,6 +7,8 @@ import WeatherTemp from './WeatherTemp'
 import WeatherLocation from './WeatherLocation'
 
 export default function WeatherDisplay({ weatherData }) {
+    console.log('weatherData', weatherData);
+    
 
     const {
         cityName = 'Unknown City',

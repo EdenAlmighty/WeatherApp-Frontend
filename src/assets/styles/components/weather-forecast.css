@@ -1,8 +1,9 @@
 .weather-forecast {
-  height: 48px;
+  padding-block-start: 1.083rem;
+  height: 4rem;
   display: flex;
-  padding-block-end: -15px;
-  gap: 2.875rem;
+  padding-block-end: -1.25rem;
+  gap: 2.25rem;
   align-self: center;
   text-align: center;
   place-self: end;
@@ -23,25 +24,13 @@
   }
 
   span {
-    font-size: 2.125rem;
+    font-size: 2rem;
     line-height: 0.1;
     color: var(--clr-blue-gray);
   }
 
   p {
-    font-size: 2.125rem;
+    font-size: 1.771rem;
     font-family: heebo-m;
-  }
-}
-
-@media (max-width: 1740px) {
-  .weather-forecast {
-    display: flex;
-    gap: 1.875rem;
-    align-self: center;
-
-    span {
-      font-size: 2rem;
-    }
   }
 }

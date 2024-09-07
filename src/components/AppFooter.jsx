@@ -16,10 +16,10 @@ export default function AppFooter({ location }) {
 		<footer>
 			<section className="geo-location">
 				<div className="coords-container flex">
-					<span>Latitude: {location.lat}</span>
-					<span>Longitude: {location.lon}</span>
+					<span>latitude: {location.lat}</span>
+					<span>longitude: {location.lon}</span>
 				</div>
-				{location && <span>Accurate to: {getCurrentDate()}</span>}
+				{location && <span>accurate to: {getCurrentDate()}</span>}
 			</section>
 		</footer>
 	)

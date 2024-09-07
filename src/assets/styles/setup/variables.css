@@ -28,8 +28,6 @@
   --toggle-bg-checked: var(--clr-white);
   --slider-thumb: white;
   --slider-thumb-checked: var(--clr-black);
-  --icon-moon: #ddcb26;
-  --icon-sun: #fff;
 
   --box-shadow-light: 0 4px 8px rgba(54, 54, 54, 0.3);
   --box-shadow-dark: 0 4px 8px rgba(255, 255, 255, 0.3);
@@ -60,9 +58,8 @@
   --btn-bgc: var(--clr-green);
   --btn-bgc-hover: var(--clr-d-green);
 
-  --toggle-bg-checked: rgb(72, 151, 197);
+  --toggle-bg: rgb(72, 151, 197);
   --slider-thumb-checked: var(--clr-black);
-  --icon-moon: #e64646;
 
   --box-shadow: var(--box-shadow-dark);
 }
